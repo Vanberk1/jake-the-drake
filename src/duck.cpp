@@ -1,0 +1,91 @@
+#include "duck.h"
+
+Duck::Duck() {
+    SetPosition(0, 0);
+    SetVelocity(0, 0);
+
+    m_Horizontal = 0;
+    m_Vertical = 0;
+}
+
+void Duck::Init() {
+    InitCollider();
+}
+
+void Duck::InitCollider() {
+    m_Collider.Init(m_Body, PLAYER);
+}
+
+void Duck::MoveHorizontal(int direction) {
+    m_Horizontal = direction;
+}
+
+void Duck::MoveVertical(int direction) {
+    m_Vertical = direction;
+}
+
+void Duck::Shoot(std::vector<Bullet>& projectiles) {
+    Bullet projectile;
+    projectile.SetPosition(m_Position.x + (m_Body.w * m_Scale), m_Position.y + ((m_Body.h * m_Scale) / 2));
+    projectile.LoadTexture("feather", 22, 9, 1);
+    projectile.SetVelocity(500, 0);
+    projectile.InitCollider();
+    projectiles.push_back(Bullet(projectile));
+}
+
+Collider Duck::GetCollider() const {
+    return m_Collider;
+}
+
+void Duck::Update(float deltaTime) {
+    if(m_Horizontal == 1) {
+        m_Velocity.x = 200;
+    }
+    else if(m_Horizontal == -1) {
+        m_Velocity.x = -200;
+    }
+    else {
+        m_Velocity.x = 0;
+    }
+
+    if(m_Vertical == 1) {
+        m_Velocity.y = 200;
+    }
+    else if(m_Vertical == -1) {
+        m_Velocity.y = -200;
+    }
+    else {
+        m_Velocity.y = 0;
+    }
+
+    m_Position.x += m_Velocity.x * deltaTime;
+    m_Position.y += m_Velocity.y * deltaTime;
+
+    if(m_Position.x < 0) {
+        m_Velocity.x = 0;
+        m_Position.x = 0;
+    }
+    if(m_Position.x + (m_Body.w * m_Scale) > WINDOW_WIDTH) {
+        m_Velocity.x = 0;
+        m_Position.x = WINDOW_WIDTH - (m_Body.w * m_Scale);
+    }
+    if(m_Position.y < 0) {
+        m_Velocity.y = 0;
+        m_Position.y = 0;
+    }
+    if(m_Position.y + (m_Body.h * m_Scale) > WINDOW_HEIGHT) {
+        m_Velocity.y = 0;
+        m_Position.y = WINDOW_HEIGHT - (m_Body.h * m_Scale);
+    }
+
+    m_Body.x = m_Position.x;
+    m_Body.y = m_Position.y;
+
+    m_Collider.Update(m_Body);
+}
+
+void Duck::Render(SDL_Renderer* renderer) {
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderDrawRect(renderer, &m_Collider.GetCollider());
+    SDL_RenderCopy(renderer, m_Texture, &m_Source, &m_Body);
+}
