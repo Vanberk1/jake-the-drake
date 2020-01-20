@@ -12,7 +12,7 @@ Game::Game(int width, int height) {
 }
 
 Game::~Game() {
-
+    delete spawner;
 }
 
 float Game::UpdateFPS() {
@@ -69,6 +69,7 @@ void Game::Init() {
     memcpy(prevKeyState, currentKeyState, keyLength);
 
     textureManager.Init(m_Renderer);
+    spawner = new EnemySpawner(&enemies, 200);
 
     LoadLevel();
 }
@@ -78,26 +79,23 @@ void Game::LoadLevel() {
     textureManager.AddTexture("croco", "./assets/images/croco.png");
     textureManager.AddTexture("feather", "./assets/images/feather.png");
 
-
     jake.SetPosition(100, 100);
     jake.LoadTexture("duck", 30, 30, 1);
     jake.Init();
 
-    // testEnemy.SetPosition(200, 200);
-    // testEnemy.LoadTexture(m_Renderer, "./assets/images/croco.png", 76, 40);
-    // testEnemy.Init();
+    spawner->SendWave();
 
     srand(time(NULL));
 
-    for(int i = 0; i < 5; ++i) {
-        int heightRNG = rand() % WINDOW_HEIGHT;
-        int widthRNG = rand() % 100 + WINDOW_WIDTH;
-        int velRNG = rand() % 150 + 50;
-        Enemy newEnemy(widthRNG, heightRNG, -velRNG, 0);
-        newEnemy.LoadTexture("croco", 76, 40, 1);
-        newEnemy.Init();
-        enemies.emplace_back(newEnemy);
-    }
+    // for(int i = 0; i < 5; ++i) {
+    //     int heightRNG = rand() % WINDOW_HEIGHT;
+    //     int widthRNG = rand() % 100 + WINDOW_WIDTH;
+    //     int velRNG = rand() % 150 + 50;
+    //     Enemy newEnemy(widthRNG, heightRNG, -velRNG, 0);
+    //     newEnemy.LoadTexture("croco", 76, 40, 1);
+    //     newEnemy.Init();
+    //     enemies.emplace_back(newEnemy);
+    // }
 
     // Enemy enemy;
     // enemy.SetPosition(200, 200);
@@ -116,40 +114,32 @@ void Game::InputHandler() {
         }
     }
 
-    if(KeyPressed(SDL_SCANCODE_W) || KeyPressed(SDL_SCANCODE_UP)) {
-        // std::cout << "W pressed" << std::endl;
+    if(KeyPressed(SDL_SCANCODE_W)) {
         jake.MoveVertical(-1);
     }
-    if(KeyPressed(SDL_SCANCODE_A) || KeyPressed(SDL_SCANCODE_LEFT)) {
-        // std::cout << "A pressed" << std::endl;
+    if(KeyPressed(SDL_SCANCODE_A)) {
         jake.MoveHorizontal(-1);
     }
-    if(KeyPressed(SDL_SCANCODE_S) || KeyPressed(SDL_SCANCODE_DOWN)) {
-        // std::cout << "S pressed" << std::endl;
+    if(KeyPressed(SDL_SCANCODE_S)) {
         jake.MoveVertical(1);
     }
-    if(KeyPressed(SDL_SCANCODE_D) || KeyPressed(SDL_SCANCODE_RIGHT)) {
-        // std::cout << "D pressed" << std::endl;
+    if(KeyPressed(SDL_SCANCODE_D)) {
         jake.MoveHorizontal(1);
     }
     if(KeyPressed(SDL_SCANCODE_SPACE)) {
         jake.Shoot(projectiles);
     }
     
-    if(KeyReleased(SDL_SCANCODE_W) || KeyReleased(SDL_SCANCODE_UP)) {
-        // std::cout << "W released" << std::endl;
+    if(KeyReleased(SDL_SCANCODE_W)) {
         jake.MoveVertical(0);
     }
-    if(KeyReleased(SDL_SCANCODE_A) || KeyReleased(SDL_SCANCODE_LEFT)) {
-        // std::cout << "A released" << std::endl;
+    if(KeyReleased(SDL_SCANCODE_A)) {
         jake.MoveHorizontal(0);
     }
-    if(KeyReleased(SDL_SCANCODE_S) || KeyReleased(SDL_SCANCODE_DOWN)) {
-        // std::cout << "S released" << std::endl;
+    if(KeyReleased(SDL_SCANCODE_S)) {
         jake.MoveVertical(0);
     }
-    if(KeyReleased(SDL_SCANCODE_D) || KeyReleased(SDL_SCANCODE_RIGHT)) {
-        // std::cout << "D released" << std::endl;
+    if(KeyReleased(SDL_SCANCODE_D)) {
         jake.MoveHorizontal(0);
     }
 
@@ -198,28 +188,20 @@ void Game::Update() {
         }
     }
 
-    // if(spawnTimer < 5) {
+    // if(spawnTimer < 100) {
     //     spawnTimer++;
     // }
 
-    // if(spawnTimer >= 5) {
-    //     int heightRNG = rand() % WINDOW_HEIGHT;
-    //     int widthRNG = rand() % 100 + WINDOW_WIDTH;
-    //     int velRNG = rand() % 150 + 50;
-    //     Enemy newEnemy(widthRNG, heightRNG, -velRNG, 0);
-    //     newEnemy.LoadTexture(m_Renderer, "./assets/images/croco.png", 76, 40, 1);
-    //     newEnemy.Init();
-    //     enemies.emplace_back(newEnemy);
-
+    // if(spawnTimer >= 100) {
+        spawner->Run();
     //     spawnTimer = 0;
     // }
-    
 
     PlayerEnemyCollision();
     ProjectileEnemyCollision();
 
     // std::cout << "Projectiles: " << projectiles.size() << std::endl;
-    std::cout << "Cocrodiles: " << enemies.size() << std::endl;
+    // std::cout << "Cocrodiles: " << enemies.size() << std::endl;
 }
 
 void Game::Render() {
@@ -234,6 +216,8 @@ void Game::Render() {
     for(Enemy& enemy : enemies) {
         enemy.Render(m_Renderer);
     }
+
+
 
     SDL_RenderPresent(m_Renderer);
 }

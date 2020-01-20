@@ -11,6 +11,8 @@ private:
     int m_Vertical;
     Collider m_Collider;
 
+    int m_Speed;
+
 public:
     Duck();
     void Init();

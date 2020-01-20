@@ -6,6 +6,8 @@ Duck::Duck() {
 
     m_Horizontal = 0;
     m_Vertical = 0;
+
+    m_Speed = 350;
 }
 
 void Duck::Init() {
@@ -39,20 +41,20 @@ Collider Duck::GetCollider() const {
 
 void Duck::Update(float deltaTime) {
     if(m_Horizontal == 1) {
-        m_Velocity.x = 200;
+        m_Velocity.x = m_Speed;
     }
     else if(m_Horizontal == -1) {
-        m_Velocity.x = -200;
+        m_Velocity.x = -m_Speed;
     }
     else {
         m_Velocity.x = 0;
     }
 
     if(m_Vertical == 1) {
-        m_Velocity.y = 200;
+        m_Velocity.y = m_Speed;
     }
     else if(m_Vertical == -1) {
-        m_Velocity.y = -200;
+        m_Velocity.y = -m_Speed;
     }
     else {
         m_Velocity.y = 0;

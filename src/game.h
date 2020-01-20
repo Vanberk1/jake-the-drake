@@ -12,6 +12,7 @@
 #include "enemy.h"
 #include "bullet.h"
 #include "textureManager.h"
+#include "enemySpawner.h"
 
 class Game {
 private:
@@ -26,7 +27,7 @@ private:
 
     Duck jake;
     Enemy testEnemy;
-    std::vector<Enemy> enemies;
+    EnemySpawner* spawner;
     std::vector<Bullet> projectiles;
 
 public:
@@ -39,6 +40,8 @@ public:
     void Destroy();
 
     inline bool IsRunning() const { return m_IsRunning; };
+    
+    std::vector<Enemy> enemies;
 
 private:
     uint8_t* prevKeyState;
