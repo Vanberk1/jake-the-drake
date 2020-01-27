@@ -13,6 +13,7 @@
 #include "bullet.h"
 #include "textureManager.h"
 #include "enemySpawner.h"
+#include "gameStateMachine.h"
 
 class Game {
 private:

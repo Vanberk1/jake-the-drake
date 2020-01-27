@@ -1,5 +1,6 @@
 #include "game.h"
 
+GameStateMachine gameStateMachine;
 TextureManager textureManager;
 
 Game::Game(int width, int height) {
@@ -75,6 +76,9 @@ void Game::Init() {
 }
 
 void Game::LoadLevel() {
+
+    gameStateMachine.PushState(new PlayState());
+
     textureManager.AddTexture("duck", "./assets/images/jake.png");
     textureManager.AddTexture("croco", "./assets/images/croco.png");
     textureManager.AddTexture("feather", "./assets/images/feather.png");
@@ -197,6 +201,8 @@ void Game::Update() {
     //     spawnTimer = 0;
     // }
 
+    gameStateMachine.Update(deltaTime);
+
     PlayerEnemyCollision();
     ProjectileEnemyCollision();
 
@@ -216,8 +222,6 @@ void Game::Render() {
     for(Enemy& enemy : enemies) {
         enemy.Render(m_Renderer);
     }
-
-
 
     SDL_RenderPresent(m_Renderer);
 }
