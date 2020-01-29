@@ -1,16 +1,15 @@
 #pragma once
 
-#include "rendereable.h"
+#include "renderable.h"
 #include "collider.h"
 #include "bullet.h"
 #include <vector>
 
-class Duck : public Rendereable {
+class Duck : public Renderable {
 private:
     int m_Horizontal;
     int m_Vertical;
     Collider m_Collider;
-
     int m_Speed;
 
 public:
@@ -19,7 +18,6 @@ public:
     void InitCollider();
     void MoveHorizontal(int direction);
     void MoveVertical(int direction);
-
     void Shoot(std::vector<Bullet>& projectiles);
 
     Collider GetCollider() const;

@@ -23,7 +23,7 @@ void EnemySpawner::SendWave() {
     int waveLength = 3;
     for(int i = 0; i < 5; ++i) {
         Enemy newEnemy(xOffSet + i * delay, heightRNG, -vel, 0);   
-        newEnemy.LoadTexture("croco", 76, 40, 1);
+        newEnemy.LoadTexture("croco", 76, 40, 1, false);
         newEnemy.Init();
         m_Enemies->emplace_back(newEnemy);
     }  

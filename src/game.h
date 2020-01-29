@@ -8,12 +8,9 @@
 #include <sstream>
 #include <ctime>
 #include "gameObject.h"
-#include "duck.h"
-#include "enemy.h"
-#include "bullet.h"
-#include "textureManager.h"
-#include "enemySpawner.h"
+#include "types.h"
 #include "gameStateMachine.h"
+#include "textureManager.h"
 
 class Game {
 private:
@@ -25,12 +22,6 @@ private:
     int m_Height;
     int ticksLastFrame;
     int countedFrames;
-
-    Duck jake;
-    Enemy testEnemy;
-    EnemySpawner* spawner;
-    std::vector<Bullet> projectiles;
-
 public:
     Game(int width, int height);
     ~Game();
@@ -41,19 +32,7 @@ public:
     void Destroy();
 
     inline bool IsRunning() const { return m_IsRunning; };
-    
-    std::vector<Enemy> enemies;
-
 private:
-    uint8_t* prevKeyState;
-    const uint8_t* currentKeyState;
-    int keyLength;
-    int spawnTimer;
-
     void LoadLevel();
-    bool KeyPressed(SDL_Scancode scanCode);
-    bool KeyReleased(SDL_Scancode scanCode);
     float UpdateFPS();
-    void PlayerEnemyCollision();
-    void ProjectileEnemyCollision();
 };

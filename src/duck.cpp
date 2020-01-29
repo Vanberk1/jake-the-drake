@@ -28,8 +28,8 @@ void Duck::MoveVertical(int direction) {
 
 void Duck::Shoot(std::vector<Bullet>& projectiles) {
     Bullet projectile;
-    projectile.SetPosition(m_Position.x + (m_Body.w * m_Scale), m_Position.y + ((m_Body.h * m_Scale) / 2));
-    projectile.LoadTexture("feather", 22, 9, 1);
+    projectile.SetPosition(m_Position.x + m_Body.w, m_Position.y + (m_Body.h / 2) - 4); // height / 2
+    projectile.LoadTexture("feather", 22, 9, 1, false);
     projectile.SetVelocity(500, 0);
     projectile.InitCollider();
     projectiles.push_back(Bullet(projectile));
@@ -67,17 +67,17 @@ void Duck::Update(float deltaTime) {
         m_Velocity.x = 0;
         m_Position.x = 0;
     }
-    if(m_Position.x + (m_Body.w * m_Scale) > WINDOW_WIDTH) {
+    if(m_Position.x + m_Body.w > WINDOW_WIDTH) {
         m_Velocity.x = 0;
-        m_Position.x = WINDOW_WIDTH - (m_Body.w * m_Scale);
+        m_Position.x = WINDOW_WIDTH - m_Body.w;
     }
     if(m_Position.y < 0) {
         m_Velocity.y = 0;
         m_Position.y = 0;
     }
-    if(m_Position.y + (m_Body.h * m_Scale) > WINDOW_HEIGHT) {
+    if(m_Position.y + m_Body.h > WINDOW_HEIGHT) {
         m_Velocity.y = 0;
-        m_Position.y = WINDOW_HEIGHT - (m_Body.h * m_Scale);
+        m_Position.y = WINDOW_HEIGHT - m_Body.h;
     }
 
     m_Body.x = m_Position.x;
@@ -89,5 +89,8 @@ void Duck::Update(float deltaTime) {
 void Duck::Render(SDL_Renderer* renderer) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderDrawRect(renderer, &m_Collider.GetCollider());
+    if(m_IsAnimated) {
+        m_Source.x = m_Source.w * static_cast<int>((SDL_GetTicks() / m_Animation.m_AnimationSpeed) % m_Animation.m_FramesNum);
+    }
     SDL_RenderCopy(renderer, m_Texture, &m_Source, &m_Body);
 }

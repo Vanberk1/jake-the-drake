@@ -1,9 +1,9 @@
 #pragma once 
 
-#include "rendereable.h"
+#include "renderable.h"
 #include "collider.h"
 
-class Enemy : public Rendereable {
+class Enemy : public Renderable {
 private:
     Collider m_Collider;
 public:

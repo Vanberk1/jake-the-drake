@@ -10,5 +10,7 @@ private:
 public:
     void PushState(GameState* state);
     void PopState();
+    void InputHandler();
     void Update(float deltaTime);
+    void Render(SDL_Renderer* renderer);
 };

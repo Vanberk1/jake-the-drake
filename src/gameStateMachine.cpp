@@ -12,8 +12,20 @@ void GameStateMachine::PopState() {
     }
 }
 
+void GameStateMachine::InputHandler() {
+    if(!m_GameStates.empty()) {
+        m_GameStates.back()->InputHandler();
+    }
+}
+
 void GameStateMachine::Update(float deltaTime) {
     if(!m_GameStates.empty()) {
         m_GameStates.back()->Update(deltaTime);
+    }
+}
+
+void GameStateMachine::Render(SDL_Renderer* renderer) {
+    if(!m_GameStates.empty()) {
+        m_GameStates.back()->Render(renderer);
     }
 }
