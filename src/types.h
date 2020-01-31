@@ -3,6 +3,8 @@
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 640;
 
+using EntityId = unsigned int;
+
 enum ColliderTag {
     NONE,
     GUI,
@@ -21,4 +23,18 @@ enum CollisionType {
     ENEMY_PROJECTILE_COLLISION,
     PLAYER_VEGETATION_COLLISION,
     PLAYER_LEVEL_COMPLETE_COLLISION
+};
+
+enum ComponentType {
+    TransformComponent,
+    SpriteComponent,
+    ColliderComponent,
+    PlayerComponent
+};
+
+enum SystemType {
+    RenderSystem,
+    PhysicsSystem,
+    CollisionSystem,
+    ControlSystem
 };
