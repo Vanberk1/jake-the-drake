@@ -8,6 +8,7 @@
 #include "enemy.h"
 #include "enemySpawner.h"
 #include "bullet.h"
+#include "util/random.h"
 
 class PlayState: public GameState {
 private:

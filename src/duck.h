@@ -11,6 +11,7 @@ private:
     int m_Vertical;
     Collider m_Collider;
     int m_Speed;
+    int m_Score;
 
 public:
     Duck();
@@ -19,9 +20,9 @@ public:
     void MoveHorizontal(int direction);
     void MoveVertical(int direction);
     void Shoot(std::vector<Bullet>& projectiles);
-
-    Collider GetCollider() const;
-
     void Update(float deltaTime) override;
     void Render(SDL_Renderer* renderer);
+    void AddPoints(int points);
+    int GetScore() const;
+    Collider GetCollider() const;
 };

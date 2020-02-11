@@ -4,6 +4,12 @@
 Enemy::Enemy() {
     SetPosition(0, 0);
     SetVelocity(0, 0);
+
+    m_RewardPoints = 1;
+}
+
+int Enemy::GetRewardPoints() const {
+    return m_RewardPoints;
 }
 
 Enemy::Enemy(int posX, int posY, int velX, int velY) {

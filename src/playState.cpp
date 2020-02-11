@@ -6,6 +6,8 @@ void PlayState::OnEnter() {
     jake.SetAnimation(3, 200);
     jake.Init();
 
+    std::cout << "Score: " << jake.GetScore() << std::endl;
+
     spawner = new EnemySpawner(&enemies, 200);
 
     currentKeyState = SDL_GetKeyboardState(&keyLength);
@@ -93,9 +95,10 @@ void PlayState::ProjectileEnemyCollision() {
     for(int i = 0; i < projectiles.size(); ++i) {
         for(int j = 0; j < enemies.size(); ++j) {
             if(projectiles[i].GetCollider().AABBCollision(enemies[j].GetCollider())) {
-                // std::cout << "Projectile[" << i << "] Hit Enemy[" << j << "]" << std::endl;
+                jake.AddPoints(enemies[j].GetRewardPoints());
                 enemies.erase(enemies.begin() + j);
                 projectiles.erase(projectiles.begin() + i);
+                std::cout << "Score: " << jake.GetScore() << std::endl;
             }
         }
     }

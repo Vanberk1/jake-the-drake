@@ -8,6 +8,8 @@ Duck::Duck() {
     m_Vertical = 0;
 
     m_Speed = 350;
+
+    m_Score = 0; 
 }
 
 void Duck::Init() {
@@ -33,6 +35,14 @@ void Duck::Shoot(std::vector<Bullet>& projectiles) {
     projectile.SetVelocity(500, 0);
     projectile.InitCollider();
     projectiles.push_back(Bullet(projectile));
+}
+
+void Duck::AddPoints(int points) {
+    m_Score += points;
+}
+
+int Duck::GetScore() const {
+    return m_Score;
 }
 
 Collider Duck::GetCollider() const {

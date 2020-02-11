@@ -78,6 +78,9 @@
         "__tree": "cpp",
         "__tuple": "cpp",
         "thread": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "cinttypes": "cpp",
+        "fstream": "cpp",
+        "__nullptr": "cpp"
     }
 }
