@@ -9,7 +9,7 @@ private:
     int m_RewardPoints;
 public:
     Enemy();
-    Enemy(int posX, int posY, int velX, int velY);
+    Enemy(int posX, int posY, int velX, int velY, int points);
     Collider GetCollider();
     int GetRewardPoints() const;
     void Init();

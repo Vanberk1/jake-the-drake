@@ -12,9 +12,11 @@ int Enemy::GetRewardPoints() const {
     return m_RewardPoints;
 }
 
-Enemy::Enemy(int posX, int posY, int velX, int velY) {
+Enemy::Enemy(int posX, int posY, int velX, int velY, int points) {
     SetPosition(posX, posY);
     SetVelocity(velX, velY);
+
+    m_RewardPoints = points;
 }
 
 Collider Enemy::GetCollider() {
