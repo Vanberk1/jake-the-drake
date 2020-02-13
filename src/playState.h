@@ -13,10 +13,9 @@
 class PlayState: public GameState {
 private:
     Duck jake;
-    Enemy testEnemy;
     EnemySpawner* spawner;
     std::vector<Bullet> projectiles;
-    std::vector<Enemy> enemies;
+    std::vector<Enemy*> enemies;
 
     uint8_t* prevKeyState;
     const uint8_t* currentKeyState;

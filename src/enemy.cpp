@@ -1,22 +1,8 @@
 #include "enemy.h"
 #include <iostream>
 
-Enemy::Enemy() {
-    SetPosition(0, 0);
-    SetVelocity(0, 0);
-
-    m_RewardPoints = 1;
-}
-
 int Enemy::GetRewardPoints() const {
     return m_RewardPoints;
-}
-
-Enemy::Enemy(int posX, int posY, int velX, int velY, int points) {
-    SetPosition(posX, posY);
-    SetVelocity(velX, velY);
-
-    m_RewardPoints = points;
 }
 
 Collider Enemy::GetCollider() {
@@ -25,15 +11,6 @@ Collider Enemy::GetCollider() {
 
 void Enemy::Init() {
     m_Collider.Init(m_Body, ENEMY);
-}
-
-void Enemy::Update(float deltaTime) {
-    m_Position.x += m_Velocity.x * deltaTime;
-    m_Position.y += m_Velocity.y * deltaTime;
-    m_Body.x = m_Position.x;
-    m_Body.y = m_Position.y;
-
-    m_Collider.Update(m_Body);
 }
 
 void Enemy::Render(SDL_Renderer* renderer) {

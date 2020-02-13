@@ -8,7 +8,7 @@ void PlayState::OnEnter() {
 
     std::cout << "Score: " << jake.GetScore() << std::endl;
 
-    spawner = new EnemySpawner(&enemies, 200);
+    spawner = new EnemySpawner(5, &jake);
 
     currentKeyState = SDL_GetKeyboardState(&keyLength);
     prevKeyState = new uint8_t[keyLength];
@@ -53,7 +53,7 @@ void PlayState::InputHandler() {
 }
 
 void PlayState::Update(float deltaTime) {
-    spawner->Run();
+    spawner->Run(deltaTime, enemies);
 
     jake.Update(deltaTime);
     for(int i = 0; i < projectiles.size(); ++i) {
@@ -63,8 +63,8 @@ void PlayState::Update(float deltaTime) {
         }
     }
     for(int i = 0; i < enemies.size(); ++i) {
-        enemies[i].Update(deltaTime);
-        if(enemies[i].GetPosition().x + enemies[i].GetWidth() < 0) {
+        enemies[i]->Update(deltaTime);
+        if(enemies[i]->GetPosition().x + enemies[i]->GetWidth() < 0) {
             enemies.erase(enemies.begin() + i);
         }
     }
@@ -78,14 +78,14 @@ void PlayState::Render(SDL_Renderer* renderer) {
     for(Bullet& projectile : projectiles) {
         projectile.Render(renderer);
     }
-    for(Enemy& enemy : enemies) {
-        enemy.Render(renderer);
+    for(Enemy* enemy : enemies) {
+        enemy->Render(renderer);
     }
 }
 
 void PlayState::PlayerEnemyCollision() {
     for(int i = 0; i < enemies.size(); ++i) {
-        if(jake.GetCollider().AABBCollision(enemies[i].GetCollider())) {
+        if(jake.GetCollider().AABBCollision(enemies[i]->GetCollider())) {
            // std::cout << "Player Enemy Collision!" << std::endl;
         }
     }
@@ -94,8 +94,8 @@ void PlayState::PlayerEnemyCollision() {
 void PlayState::ProjectileEnemyCollision() {
     for(int i = 0; i < projectiles.size(); ++i) {
         for(int j = 0; j < enemies.size(); ++j) {
-            if(projectiles[i].GetCollider().AABBCollision(enemies[j].GetCollider())) {
-                jake.AddPoints(enemies[j].GetRewardPoints());
+            if(projectiles[i].GetCollider().AABBCollision(enemies[j]->GetCollider())) {
+                jake.AddPoints(enemies[j]->GetRewardPoints());
                 enemies.erase(enemies.begin() + j);
                 projectiles.erase(projectiles.begin() + i);
                 std::cout << "Score: " << jake.GetScore() << std::endl;

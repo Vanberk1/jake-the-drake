@@ -2,16 +2,21 @@
 
 #include <vector>
 #include <ctime>
-#include "enemy.h"
+#include "duck.h"
+#include "normalEnemy.h"
+#include "bombEnemy.h"
+#include "util/random.h"
 
 class EnemySpawner {
 private:
-    std::vector<Enemy>* m_Enemies;
+    Random m_Rng;
     int m_SpawnRate;
-    int m_Timer;
-
+    float m_NormalTimer;
+    float m_BombTimer;
+    Duck* m_Target;
 public:
-    EnemySpawner(std::vector<Enemy>* enemies, int spawnRate);
-    void Run();
-    void SendWave();
+    EnemySpawner(int spawnRate, Duck* target);
+    void Run(float deltaTime, std::vector<Enemy*>& enemies);
+    void SendWave(std::vector<Enemy*>& enemies);
+    void SpawnBomb(std::vector<Enemy*>& enemies);
 };

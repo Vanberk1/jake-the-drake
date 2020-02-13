@@ -81,6 +81,7 @@
         "*.ipp": "cpp",
         "cinttypes": "cpp",
         "fstream": "cpp",
-        "__nullptr": "cpp"
+        "__nullptr": "cpp",
+        "__functional_03": "cpp"
     }
 }

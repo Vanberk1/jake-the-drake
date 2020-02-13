@@ -4,15 +4,13 @@
 #include "collider.h"
 
 class Enemy : public Renderable {
-private:
+protected:
     Collider m_Collider;
     int m_RewardPoints;
 public:
-    Enemy();
-    Enemy(int posX, int posY, int velX, int velY, int points);
     Collider GetCollider();
     int GetRewardPoints() const;
     void Init();
-    void Update(float deltaTime) override;
+    virtual void Update(float deltaTime) = 0;
     void Render(SDL_Renderer* renderer);
 };
