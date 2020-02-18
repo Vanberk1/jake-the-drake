@@ -82,6 +82,9 @@
         "cinttypes": "cpp",
         "fstream": "cpp",
         "__nullptr": "cpp",
-        "__functional_03": "cpp"
+        "__functional_03": "cpp",
+        "condition_variable": "cpp",
+        "ratio": "cpp",
+        "mutex": "cpp"
     }
 }

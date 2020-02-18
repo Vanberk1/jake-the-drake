@@ -20,6 +20,7 @@ private:
     Duck jake;
     EnemySpawner* spawner;
     std::vector<Bullet> projectiles;
+    std::vector<Bullet> enemyProjectiles;
     std::vector<Enemy*> enemies;
 
     TextLabel scoreLabel;
@@ -40,4 +41,5 @@ public:
 
     void PlayerEnemyCollision();
     void ProjectileEnemyCollision();
+    void BulletCollision();
 };

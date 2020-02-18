@@ -16,7 +16,7 @@ void PlayState::OnEnter() {
     scoreLabel.setPosition({ 25, 25, 0 , 0 });
 	scoreLabel.createLabel("SCORE: 0", { 255, 255, 255, 255 }); 
 
-    spawner = new EnemySpawner(5, &jake);
+    spawner = new EnemySpawner(5, &jake, &enemyProjectiles);
 
     currentKeyState = SDL_GetKeyboardState(&keyLength);
     prevKeyState = new uint8_t[keyLength];
@@ -70,6 +70,12 @@ void PlayState::Update(float deltaTime) {
             projectiles.erase(projectiles.begin() + i);
         }
     }
+    for(int i = 0; i < enemyProjectiles.size(); ++i) {
+        enemyProjectiles[i].Update(deltaTime);
+        if(enemyProjectiles[i].GetPosition().x > WINDOW_WIDTH) {
+            enemyProjectiles.erase(enemyProjectiles.begin() + i);
+        }
+    }
     for(int i = 0; i < enemies.size(); ++i) {
         enemies[i]->Update(deltaTime);
         if(enemies[i]->GetPosition().x + enemies[i]->GetWidth() < 0) {
@@ -79,11 +85,15 @@ void PlayState::Update(float deltaTime) {
     
     PlayerEnemyCollision();
     ProjectileEnemyCollision();
+    BulletCollision();
 }
 
 void PlayState::Render(SDL_Renderer* renderer) {
     jake.Render(renderer);
     for(Bullet& projectile : projectiles) {
+        projectile.Render(renderer);
+    }
+    for(Bullet& projectile : enemyProjectiles) {
         projectile.Render(renderer);
     }
     for(Enemy* enemy : enemies) {
@@ -112,6 +122,17 @@ void PlayState::ProjectileEnemyCollision() {
 
 				ss << "SCORE: " << jake.GetScore();
 				scoreLabel.setText(ss.str());
+            }
+        }
+    }
+}
+
+void PlayState::BulletCollision() {
+    for(int i = 0; i < projectiles.size(); ++i) {
+        for(int j = 0; j < enemyProjectiles.size(); ++j) {
+            if(projectiles[i].GetCollider().AABBCollision(enemyProjectiles[j].GetCollider())) {
+                enemyProjectiles.erase(enemyProjectiles.begin() + j);
+                projectiles.erase(projectiles.begin() + i);
             }
         }
     }

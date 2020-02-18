@@ -1,9 +1,9 @@
 #pragma once
 
+#include <vector>
 #include "renderable.h"
 #include "collider.h"
 #include "bullet.h"
-#include <vector>
 
 class Duck : public Renderable {
 private:
