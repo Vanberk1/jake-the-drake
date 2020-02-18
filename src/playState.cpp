@@ -1,12 +1,20 @@
 #include "playState.h"
 
+PlayState::PlayState(SDL_Renderer* renderer) {
+    m_Renderer = renderer;
+}
+
 void PlayState::OnEnter() {
     jake.SetPosition(100, 100);
     jake.LoadTexture("duck", 21, 17, 3, true);
     jake.SetAnimation(3, 200);
     jake.Init();
 
-    std::cout << "Score: " << jake.GetScore() << std::endl;
+    // std::cout << "Score: " << jake.GetScore() << std::endl;
+    TTF_Font* font = fontManager.GetFont("arial", 28);
+    scoreLabel.init(m_Renderer, font);
+    scoreLabel.setPosition({ 25, 25, 0 , 0 });
+	scoreLabel.createLabel("SCORE: 0", { 255, 255, 255, 255 }); 
 
     spawner = new EnemySpawner(5, &jake);
 
@@ -81,6 +89,7 @@ void PlayState::Render(SDL_Renderer* renderer) {
     for(Enemy* enemy : enemies) {
         enemy->Render(renderer);
     }
+    scoreLabel.draw(renderer);
 }
 
 void PlayState::PlayerEnemyCollision() {
@@ -98,7 +107,11 @@ void PlayState::ProjectileEnemyCollision() {
                 jake.AddPoints(enemies[j]->GetRewardPoints());
                 enemies.erase(enemies.begin() + j);
                 projectiles.erase(projectiles.begin() + i);
-                std::cout << "Score: " << jake.GetScore() << std::endl;
+                // std::cout << "Score: " << jake.GetScore() << std::endl;
+                std::stringstream ss;
+
+				ss << "SCORE: " << jake.GetScore();
+				scoreLabel.setText(ss.str());
             }
         }
     }

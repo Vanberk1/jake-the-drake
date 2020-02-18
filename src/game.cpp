@@ -2,6 +2,7 @@
 
 GameStateMachine gameStateMachine;
 TextureManager textureManager;
+FontManager fontManager;
 
 Game::Game(int width, int height) {
     m_Width = width; 
@@ -17,6 +18,10 @@ Game::~Game() {
 void Game::Init() {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cout << "Error initializing SDL." << std::endl;
+        return;
+    }
+    if(TTF_Init() != 0) {
+        std::cout << "Error initializing SDL_TTF !" << std::endl;
         return;
     }
 
@@ -41,6 +46,7 @@ void Game::Init() {
     }
 
     textureManager.Init(m_Renderer);
+    fontManager.Init(m_Renderer);
 
     LoadLevel();
 }
@@ -50,7 +56,9 @@ void Game::LoadLevel() {
     textureManager.AddTexture("croco", "./assets/images/croco.png");
     textureManager.AddTexture("feather", "./assets/images/feather.png");
 
-    gameStateMachine.PushState(new PlayState());
+    fontManager.AddFont("arial", 28, "./assets/fonts/arial.ttf");
+
+    gameStateMachine.PushState(std::make_unique<PlayState>(m_Renderer));
 }
 
 void Game::InputHandler() {
@@ -80,6 +88,7 @@ void Game::Render() {
 void Game::Destroy() {
     SDL_DestroyRenderer(m_Renderer);
     SDL_DestroyWindow(m_Window);
+    TTF_Quit();
     SDL_Quit();
 }
 

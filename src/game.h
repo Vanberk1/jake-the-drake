@@ -2,15 +2,19 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <vector>
 #include <cstring>
 #include <sstream>
+#include <memory>
 #include <ctime>
 #include "gameObject.h"
 #include "types.h"
 #include "gameStateMachine.h"
+#include "playState.h"
 #include "textureManager.h"
+#include "fontManager.h"
 
 class Game {
 private:

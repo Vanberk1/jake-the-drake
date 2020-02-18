@@ -1,15 +1,17 @@
 #pragma once
 
 #include <vector>
-#include "playState.h"
+#include <memory>
+#include "GameState.h"
 
 class GameStateMachine {
 private:
-    std::vector<GameState*> m_GameStates;
+    std::vector<std::unique_ptr<GameState>> m_GameStates;
 
 public:
-    void PushState(GameState* state);
+    void PushState(std::unique_ptr<GameState> state);
     void PopState();
+    void restart(std::unique_ptr<GameState> state);
     void InputHandler();
     void Update(float deltaTime);
     void Render(SDL_Renderer* renderer);
