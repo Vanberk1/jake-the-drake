@@ -14,20 +14,20 @@ void EnemySpawner::Run(float deltaTime, std::vector<Enemy*>& enemies) {
     // std::cout << "Normal timer: " << m_NormalTimer << std::endl;
     // std::cout << "Bomb timer: " << m_BombTimer << std::endl;
 
-    // if(m_NormalTimer >= m_SpawnRate / 2) {
+    // if(m_NormalTimer >= m_SpawnRate / 2.0f) {
     //     SendWave(enemies);
     //     m_NormalTimer = 0;
     // }
 
-    // if(m_BombTimer >= m_SpawnRate / 2) {
-    //     SpawnBomb(enemies);
-    //     m_BombTimer = 0;
-    // }
-
-    if(m_ShooterTimer >= m_SpawnRate / 3.0f) {
-        SpawnShooter(enemies);
-        m_ShooterTimer = 0;
+    if(m_BombTimer >= m_SpawnRate / 2.0f) {
+        SpawnBomb(enemies);
+        m_BombTimer = 0;
     }
+
+    // if(m_ShooterTimer >= m_SpawnRate / 2.0f) {
+    //     SpawnShooter(enemies);
+    //     m_ShooterTimer = 0;
+    // }
 }
 
 void EnemySpawner::SendWave(std::vector<Enemy*>& enemies) {
