@@ -28,7 +28,7 @@ public:
     int GetWidth() const;
     int GetHeight() const;
     int GetScale() const;
-    void SetPosition(int posX, int posY);
-    void SetVelocity(int velX, int velY);
+    void SetPosition(float posX, float posY);
+    void SetVelocity(float velX, float velY);
     void SetScale(int scale);
 };

@@ -15,11 +15,13 @@ void BombEnemy::SetTarget(Duck* target) {
 }
 
 void BombEnemy::Update(float deltaTime) {
-    int dx = (m_Position.x - m_Target->GetPosition().x);
-    int dy = (m_Position.y - m_Target->GetPosition().y);
-    int dist = sqrt(dx * dx + dy * dy);
+    float dx = (m_Target->GetPosition().x - m_Position.x);
+    float dy = (m_Target->GetPosition().y - m_Position.y);
+    float dist = sqrt(dx * dx + dy * dy);
+    dx /= dist;
+    dy /= dist;
 
-    if(!m_Rush && m_Stop && dist <= 500 && m_Position.x <= WINDOW_WIDTH - 100) {
+    if(!m_Rush && m_Stop && dist <= 500.0f && m_Position.x <= WINDOW_WIDTH - 100) {
         SetVelocity(0, 0);
         m_Stop = false;
     }
@@ -33,7 +35,7 @@ void BombEnemy::Update(float deltaTime) {
     }
 
     if(m_CanRush) {
-        SetVelocity(-dx * 1.5f, -dy * 1.5f);
+        SetVelocity(dx * 250.0f, dy * 250.0f);
         m_CanRush = false;
         m_Rush = true;
     }

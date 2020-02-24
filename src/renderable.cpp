@@ -47,12 +47,12 @@ int Renderable::GetScale() const {
     return m_Scale;
 }
 
-void Renderable::SetPosition(int posX, int posY) {
+void Renderable::SetPosition(float posX, float posY) {
     m_Position.x = posX;
     m_Position.y = posY;
 }
 
-void Renderable::SetVelocity(int velX, int velY) {
+void Renderable::SetVelocity(float velX, float velY) {
     m_Velocity.x = velX;
     m_Velocity.y = velY;
 }
