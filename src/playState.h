@@ -12,11 +12,13 @@
 #include "enemySpawner.h"
 #include "bullet.h"
 #include "textLabel.h"
+#include "game.h"
 
 extern FontManager fontManager;
 
-class PlayState: public GameState {
+class PlayState : public GameState {
 private:
+    bool gameOver;
     Duck jake;
     EnemySpawner* spawner;
     std::vector<Bullet> projectiles;
@@ -24,6 +26,8 @@ private:
     std::vector<Enemy*> enemies;
 
     TextLabel scoreLabel;
+    TextLabel m_GameOverText;
+	TextLabel m_RestartText;
 
     uint8_t* prevKeyState;
     const uint8_t* currentKeyState;
@@ -35,11 +39,12 @@ public:
     PlayState(SDL_Renderer* renderer);
     void OnEnter() override;
     void OnExit() override;
-    void InputHandler() override;
+    void InputHandler(SDL_Event event) override;
     void Update(float deltaTime) override;
     void Render(SDL_Renderer* renderer) override;
 
     void PlayerEnemyCollision();
+    void ProjectilePlayerCollision();
     void ProjectileEnemyCollision();
     void BulletCollision();
 };

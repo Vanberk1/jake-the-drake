@@ -12,9 +12,9 @@ void GameStateMachine::PopState() {
     }
 }
 
-void GameStateMachine::InputHandler() {
+void GameStateMachine::InputHandler(SDL_Event event) {
     if(m_GameStates.back() != nullptr) {
-        m_GameStates.back()->InputHandler();
+        m_GameStates.back()->InputHandler(event);
     }
 }
 
@@ -30,7 +30,7 @@ void GameStateMachine::Render(SDL_Renderer* renderer) {
     }
 }
 
-void GameStateMachine::restart(std::unique_ptr<GameState> state) {
+void GameStateMachine::Restart(std::unique_ptr<GameState> state) {
 	m_GameStates.pop_back();
 	state->OnEnter();
 	m_GameStates.push_back(std::move(state));

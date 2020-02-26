@@ -7,7 +7,7 @@ FontManager fontManager;
 Game::Game(int width, int height) {
     m_Width = width; 
     m_Height = height;
-    m_IsRunning = true;
+    IsRunning = true;
     countedFrames = 0;
     ticksLastFrame = SDL_GetTicks();
 }
@@ -58,19 +58,19 @@ void Game::LoadLevel() {
 
     fontManager.AddFont("arial", 28, "./assets/fonts/arial.ttf");
 
-    gameStateMachine.PushState(std::make_unique<PlayState>(m_Renderer));
+    gameStateMachine.PushState(std::make_unique<MenuState>(m_Renderer));
 }
 
 void Game::InputHandler() {
     while(SDL_PollEvent(&m_Event)) {
         if(m_Event.type == SDL_QUIT) {
-            m_IsRunning = false;
+            IsRunning = false;
         }
         if(m_Event.key.keysym.sym == SDLK_ESCAPE) {
-            m_IsRunning = false;
+            IsRunning = false;
         }
     }
-    gameStateMachine.InputHandler();
+    gameStateMachine.InputHandler(m_Event);
 }
 
 void Game::Update() {

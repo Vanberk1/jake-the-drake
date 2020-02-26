@@ -11,17 +11,18 @@
 #include <ctime>
 #include "gameObject.h"
 #include "types.h"
-#include "gameStateMachine.h"
-#include "playState.h"
+#include "menuState.h"
 #include "textureManager.h"
 #include "fontManager.h"
+#include "gameStateMachine.h"
+
+extern bool IsRunning;
 
 class Game {
 private:
     SDL_Window* m_Window;
     SDL_Renderer* m_Renderer;
     SDL_Event m_Event;
-    bool m_IsRunning;
     int m_Width;
     int m_Height;
     int ticksLastFrame;
@@ -34,8 +35,6 @@ public:
     void Update();
     void Render();
     void Destroy();
-
-    inline bool IsRunning() const { return m_IsRunning; };
 private:
     void LoadLevel();
     float UpdateFPS();
