@@ -7,7 +7,7 @@ PlayState::PlayState(SDL_Renderer* renderer) {
 
 void PlayState::OnEnter() {
     jake.SetPosition(100, 100);
-    jake.LoadTexture("duck", 21, 17, 3, true);
+    jake.LoadTexture("duck", 16, 16, 3, true);
     jake.SetAnimation(3, 200);
     jake.Init();
 
