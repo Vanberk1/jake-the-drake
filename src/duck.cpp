@@ -12,7 +12,8 @@ Duck::Duck() {
     m_Score = 0; 
 }
 
-void Duck::Init() {
+void Duck::Init(std::vector<Bullet>* projectiles) {
+    m_Projectiles = projectiles;
     InitCollider();
 }
 
@@ -28,13 +29,13 @@ void Duck::MoveVertical(int direction) {
     m_Vertical = direction;
 }
 
-void Duck::Shoot(std::vector<Bullet>& projectiles) {
+void Duck::Shoot() {
     Bullet projectile;
     projectile.SetPosition(m_Position.x + m_Body.w, m_Position.y + (m_Body.h / 2) - 4); // height / 2
     projectile.LoadTexture("feather", 22, 9, 1, false);
     projectile.SetVelocity(500, 0);
     projectile.InitCollider();
-    projectiles.push_back(Bullet(projectile));
+    m_Projectiles->push_back(Bullet(projectile));
 }
 
 void Duck::AddPoints(int points) {
@@ -100,7 +101,8 @@ void Duck::Render(SDL_Renderer* renderer) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderDrawRect(renderer, &m_Collider.GetCollider());
     if(m_IsAnimated) {
-        m_Source.x = m_Source.w * static_cast<int>((SDL_GetTicks() / m_Animation.m_AnimationSpeed) % m_Animation.m_FramesNum);
+        m_Source.x = m_Source.w * static_cast<int>((SDL_GetTicks() / m_Animations[m_ActualAnimation].m_AnimationSpeed) % m_Animations[m_ActualAnimation].m_FramesNum);
+        m_Source.y = m_Source.h * m_Animations[m_ActualAnimation].m_AnimationCount;
     }
     SDL_RenderCopy(renderer, m_Texture, &m_Source, &m_Body);
 }

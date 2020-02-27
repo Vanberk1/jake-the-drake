@@ -23,6 +23,7 @@ void BombEnemy::Update(float deltaTime) {
 
     if(!m_Rush && m_Stop && dist <= 500.0f && m_Position.x <= WINDOW_WIDTH - 100) {
         SetVelocity(0, 0);
+        SetAnimation("explode");
         m_Stop = false;
     }
 

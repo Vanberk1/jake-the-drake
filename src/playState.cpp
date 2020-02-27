@@ -7,9 +7,11 @@ PlayState::PlayState(SDL_Renderer* renderer) {
 
 void PlayState::OnEnter() {
     jake.SetPosition(100, 100);
-    jake.LoadTexture("duck", 16, 16, 3, true);
-    jake.SetAnimation(3, 200);
-    jake.Init();
+    jake.LoadTexture("duck", 16, 16, 2, true);
+    jake.AddAnimation("idle", 3, 200, 0);
+    jake.AddAnimation("yellow", 3, 200, 1);
+    jake.SetAnimation("idle");
+    jake.Init(&projectiles);
 
     // std::cout << "Score: " << jake.GetScore() << std::endl;
     TTF_Font* font = fontManager.GetFont("arial", 28);
@@ -59,7 +61,8 @@ void PlayState::InputHandler(SDL_Event event) {
             jake.MoveHorizontal(1);
         }
         if(KeyPressed(SDL_SCANCODE_SPACE)) {
-            jake.Shoot(projectiles);
+            jake.Shoot();
+            jake.SetAnimation("yellow");
         }
         
         if(KeyReleased(SDL_SCANCODE_W)) {
@@ -73,6 +76,9 @@ void PlayState::InputHandler(SDL_Event event) {
         }
         if(KeyReleased(SDL_SCANCODE_D)) {
             jake.MoveHorizontal(0);
+        }
+        if(KeyReleased(SDL_SCANCODE_SPACE)) {
+            jake.SetAnimation("idle");
         }
     }
     else {

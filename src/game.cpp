@@ -54,6 +54,8 @@ void Game::Init() {
 void Game::LoadLevel() {
     textureManager.AddTexture("duck", "./assets/images/jake-as.png");
     textureManager.AddTexture("croco", "./assets/images/croco.png");
+    textureManager.AddTexture("croco-as", "./assets/images/croco-as.png");
+    textureManager.AddTexture("croco-bomb", "./assets/images/bomb.png");
     textureManager.AddTexture("feather", "./assets/images/feather.png");
 
     fontManager.AddFont("arial", 28, "./assets/fonts/arial.ttf");

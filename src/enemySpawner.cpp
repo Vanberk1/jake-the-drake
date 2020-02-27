@@ -24,10 +24,10 @@ void EnemySpawner::Run(float deltaTime, std::vector<Enemy*>& enemies) {
         m_BombTimer = 0;
     }
 
-    if(m_ShooterTimer >= m_SpawnRate / 2.0f) {
-        SpawnShooter(enemies);
-        m_ShooterTimer = 0;
-    }
+    // if(m_ShooterTimer >= m_SpawnRate / 2.0f) {
+    //     SpawnShooter(enemies);
+    //     m_ShooterTimer = 0;
+    // }
 }
 
 void EnemySpawner::SendWave(std::vector<Enemy*>& enemies) {
@@ -38,7 +38,9 @@ void EnemySpawner::SendWave(std::vector<Enemy*>& enemies) {
     int waveLength = 3;
     for(int i = 0; i < 1; ++i) {
         NormalEnemy* newEnemy = new NormalEnemy(xOffSet + i * delay, heightRNG, -vel, 0, 1);   
-        newEnemy->LoadTexture("croco", 76, 40, 1, false);
+        newEnemy->LoadTexture("croco-as", 32, 16, 3, true);
+        newEnemy->AddAnimation("idle", 3, 200, 0);
+        newEnemy->SetAnimation("idle");
         newEnemy->Init();
         enemies.push_back(newEnemy);
     } 
@@ -47,7 +49,10 @@ void EnemySpawner::SendWave(std::vector<Enemy*>& enemies) {
 void EnemySpawner::SpawnBomb(std::vector<Enemy*>& enemies) { 
     int heightRNG = m_Rng.Int(0, WINDOW_HEIGHT - 40);
     BombEnemy* bomb = new BombEnemy(WINDOW_WIDTH, heightRNG, -150, 0, 10);
-    bomb->LoadTexture("croco", 76, 40, 1, false);
+    bomb->LoadTexture("croco-bomb", 32, 16, 3, true);
+    bomb->AddAnimation("idle", 3, 300, 0);
+    bomb->AddAnimation("explode", 3, 90, 0);
+    bomb->SetAnimation("idle");
     bomb->Init();
     bomb->SetTarget(m_Target);
     enemies.push_back(bomb);

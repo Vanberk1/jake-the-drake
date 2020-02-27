@@ -4,6 +4,7 @@
 #include "animation.h"
 #include "textureManager.h"
 #include <iostream>
+#include <map>
 
 extern TextureManager textureManager;
 
@@ -15,12 +16,14 @@ protected:
     SDL_Rect m_Source;
     SDL_Rect m_Body;
     int m_Scale;
-    Animation m_Animation;
+    std::map<std::string, Animation> m_Animations;
+    std::string m_ActualAnimation;
     bool m_IsAnimated;
 
 public:
     void LoadTexture(std::string name, int width, int height, int scale, bool isAnimated);
-    void SetAnimation(int framesNum, int animationSpeed);
+    void AddAnimation(std::string animName, int framesNum, int animationSpeed, int animationCount);
+    void SetAnimation(std::string animName);
     void Render(SDL_Renderer* renderer);
     
     glm::vec2 GetPosition() const;

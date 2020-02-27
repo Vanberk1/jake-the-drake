@@ -14,14 +14,32 @@ void Renderable::LoadTexture(std::string name, int width, int height, int scale,
     m_IsAnimated = isAnimated;
 }
 
-void Renderable::SetAnimation(int framesNum, int animationSpeed) {
-    m_Animation.m_FramesNum = framesNum;
-    m_Animation.m_AnimationSpeed = animationSpeed;
+void Renderable::AddAnimation(std::string animName, int framesNum, int animationSpeed, int animationCount) {
+    if(m_Animations.find(animName) == m_Animations.end()) {
+        m_Animations.insert(std::pair<std::string, Animation>(animName, { framesNum, animationSpeed, animationCount }));
+        std::cout << "Animation["<< animationCount << "]: " << animName << "[f:" << framesNum << ",s:" << animationSpeed << "] ADDED!" << std::endl;
+    }
+    else {
+        m_Animations[animName] = { framesNum, animationSpeed, animationCount };
+        std::cout << "Animation: " << animName << "[f:" << framesNum << ",s:" << animationSpeed << "] CHANGED!" << std::endl;
+    }
+    m_ActualAnimation = animName;
+}
+
+void Renderable::SetAnimation(std::string animName) {
+    if(m_Animations.find(animName) != m_Animations.end()) {
+        m_ActualAnimation = animName;
+        std::cout << "Animation: " << animName << " changed" << std::endl;
+    }
+    else {
+        std::cout << "Animation: " << animName << " not found!" << std::endl;
+    }
 }
 
 void Renderable::Render(SDL_Renderer* renderer) {
     if(m_IsAnimated) {
-        m_Source.x = m_Source.w * static_cast<int>((SDL_GetTicks() / m_Animation.m_AnimationSpeed) % m_Animation.m_FramesNum);
+        m_Source.x = m_Source.w * static_cast<int>((SDL_GetTicks() / m_Animations[m_ActualAnimation].m_AnimationSpeed) % m_Animations[m_ActualAnimation].m_FramesNum);
+        m_Source.y = m_Source.h * m_Animations[m_ActualAnimation].m_AnimationCount;
         std::cout << m_Source.x << std::endl;
     }
     SDL_RenderCopy(renderer, m_Texture, &m_Source, &m_Body);

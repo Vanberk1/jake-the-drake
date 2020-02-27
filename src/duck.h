@@ -12,14 +12,15 @@ private:
     Collider m_Collider;
     int m_Speed;
     int m_Score;
+    std::vector<Bullet>* m_Projectiles;
 
 public:
     Duck();
-    void Init();
+    void Init(std::vector<Bullet>* projectiles);
     void InitCollider();
     void MoveHorizontal(int direction);
     void MoveVertical(int direction);
-    void Shoot(std::vector<Bullet>& projectiles);
+    void Shoot();
     void Update(float deltaTime) override;
     void Render(SDL_Renderer* renderer);
     void AddPoints(int points);

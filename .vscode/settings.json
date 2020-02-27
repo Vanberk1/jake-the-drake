@@ -85,6 +85,7 @@
         "__functional_03": "cpp",
         "condition_variable": "cpp",
         "ratio": "cpp",
-        "mutex": "cpp"
+        "mutex": "cpp",
+        "cwctype": "cpp"
     }
 }
