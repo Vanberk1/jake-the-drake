@@ -17,9 +17,9 @@ void ShooterEnemy::SetProjectilesVector(std::vector<Bullet>* projectiles) {
     m_Projectiles = projectiles;
 }
 
-void ShooterEnemy::Shoot() {
-    float dx = (m_Target->GetPosition().x - m_Position.x);
-    float dy = (m_Target->GetPosition().y - m_Position.y);
+void ShooterEnemy::Shoot(float deltaTime) {
+    float dx = ((m_Target->GetPosition().x + m_Target->GetVelocity().x * deltaTime) - m_Position.x);
+    float dy = ((m_Target->GetPosition().y + m_Target->GetVelocity().y * deltaTime) - m_Position.y);
     float dist = sqrt(dx * dx + dy * dy);
     // std::cout << "dx: " << dx << " - dy: " << dy << " - dist: " << dist << std::endl;
     Bullet projectile;
@@ -40,7 +40,7 @@ void ShooterEnemy::Update(float deltaTime) {
 
     m_ShootTimer += deltaTime;
     if(m_ShootTimer >= 1.5f) {
-        Shoot();
+        Shoot(deltaTime);
         m_ShootTimer = 0.0f;
     }
 

@@ -29,7 +29,7 @@ SDL_Rect* TextLabel::getPosition() {
 }
 
 void TextLabel::setText(std::string text) {
-    SDL_Surface* surface = TTF_RenderText_Solid(m_Font, text.c_str(), m_Color);
+    SDL_Surface* surface = TTF_RenderText_Blended(m_Font, text.c_str(), m_Color);
     m_Texture = SDL_CreateTextureFromSurface(m_Renderer, surface);
     SDL_FreeSurface(surface);
     SDL_QueryTexture(m_Texture, NULL, NULL, &m_Position.w, &m_Position.h);

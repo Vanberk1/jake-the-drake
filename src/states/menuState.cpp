@@ -5,7 +5,7 @@ MenuState::MenuState(SDL_Renderer* renderer) {
 }
 
 void MenuState::OnEnter() {
-    TTF_Font* font = fontManager.GetFont("arial", 28);
+    TTF_Font* font = fontManager.GetFont("arial", 24);
     m_PlayTextLabel.init(m_Renderer, font);
     m_ExitTextLabel.init(m_Renderer, font);
 

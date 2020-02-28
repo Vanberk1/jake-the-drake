@@ -3,13 +3,12 @@
 Duck::Duck() {
     SetPosition(0, 0);
     SetVelocity(0, 0);
-
     m_Horizontal = 0;
     m_Vertical = 0;
-
     m_Speed = 350;
-
     m_Score = 0; 
+    m_IsShooting = false;
+    m_ShootingTimer = 0.0f;
 }
 
 void Duck::Init(std::vector<Bullet>* projectiles) {
@@ -50,7 +49,7 @@ Collider Duck::GetCollider() const {
     return m_Collider;
 }
 
-void Duck::Update(float deltaTime) {
+void Duck::Movement(float deltaTime) {
     if(m_Horizontal == 1) {
         m_Velocity.x = m_Speed;
     }
@@ -93,6 +92,22 @@ void Duck::Update(float deltaTime) {
 
     m_Body.x = m_Position.x;
     m_Body.y = m_Position.y;
+}
+
+void Duck::Shooting(bool shooting) {
+    m_IsShooting = shooting;
+}
+
+void Duck::Update(float deltaTime) {
+    Movement(deltaTime);
+
+    if(m_IsShooting) {
+        m_ShootingTimer += deltaTime;
+        if(m_ShootingTimer >= 0.1f) {
+            Shoot();
+            m_ShootingTimer = 0.0f;
+        }
+    }
 
     m_Collider.Update(m_Body);
 }

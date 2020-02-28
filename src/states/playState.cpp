@@ -14,7 +14,7 @@ void PlayState::OnEnter() {
     jake.Init(&projectiles);
 
     // std::cout << "Score: " << jake.GetScore() << std::endl;
-    TTF_Font* font = fontManager.GetFont("arial", 28);
+    TTF_Font* font = fontManager.GetFont("arial", 24);
     m_GameOverText.init(m_Renderer, font);
 	m_RestartText.init(m_Renderer, font);
     scoreLabel.init(m_Renderer, font);
@@ -61,7 +61,7 @@ void PlayState::InputHandler(SDL_Event event) {
             jake.MoveHorizontal(1);
         }
         if(KeyPressed(SDL_SCANCODE_SPACE)) {
-            jake.Shoot();
+            jake.Shooting(true);
             jake.SetAnimation("yellow");
         }
         
@@ -78,6 +78,7 @@ void PlayState::InputHandler(SDL_Event event) {
             jake.MoveHorizontal(0);
         }
         if(KeyReleased(SDL_SCANCODE_SPACE)) {
+            jake.Shooting(false);
             jake.SetAnimation("idle");
         }
     }

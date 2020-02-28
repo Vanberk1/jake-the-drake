@@ -52,13 +52,12 @@ void Game::Init() {
 }
 
 void Game::LoadLevel() {
-    textureManager.AddTexture("duck", "./assets/images/jake-as.png");
-    textureManager.AddTexture("croco", "./assets/images/croco.png");
-    textureManager.AddTexture("croco-as", "./assets/images/croco-as.png");
-    textureManager.AddTexture("croco-bomb", "./assets/images/bomb.png");
+    textureManager.AddTexture("duck", "./assets/images/jake.png");
+    textureManager.AddTexture("normal-enemy", "./assets/images/normal-enemy.png");
+    textureManager.AddTexture("bomb-enemy", "./assets/images/bomb-enemy.png");
     textureManager.AddTexture("feather", "./assets/images/feather.png");
 
-    fontManager.AddFont("arial", 28, "./assets/fonts/arial.ttf");
+    fontManager.AddFont("arial", 24, "./assets/fonts/arial.ttf");
 
     gameStateMachine.PushState(std::make_unique<MenuState>(m_Renderer));
 }

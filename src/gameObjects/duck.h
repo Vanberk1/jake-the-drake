@@ -13,14 +13,18 @@ private:
     int m_Speed;
     int m_Score;
     std::vector<Bullet>* m_Projectiles;
+    bool m_IsShooting;
+    float m_ShootingTimer;
 
+    void Movement(float deltaTime);
+    void Shoot();
 public:
     Duck();
     void Init(std::vector<Bullet>* projectiles);
     void InitCollider();
     void MoveHorizontal(int direction);
     void MoveVertical(int direction);
-    void Shoot();
+    void Shooting(bool shooting);
     void Update(float deltaTime) override;
     void Render(SDL_Renderer* renderer);
     void AddPoints(int points);
