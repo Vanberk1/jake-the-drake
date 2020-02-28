@@ -7,7 +7,7 @@ PlayState::PlayState(SDL_Renderer* renderer) {
 
 void PlayState::OnEnter() {
     jake.SetPosition(100, 100);
-    jake.LoadTexture("duck", 16, 16, 2, true);
+    jake.LoadTexture("duck", 16, 16, SPRITE_SCALE, true);
     jake.AddAnimation("idle", 3, 200, 0);
     jake.AddAnimation("yellow", 3, 200, 1);
     jake.SetAnimation("idle");
@@ -155,11 +155,15 @@ void PlayState::ProjectileEnemyCollision() {
         for(int j = 0; j < enemies.size(); ++j) {
             if(projectiles[i].GetCollider().AABBCollision(enemies[j]->GetCollider())) {
                 jake.AddPoints(enemies[j]->GetRewardPoints());
-                enemies.erase(enemies.begin() + j);
                 projectiles.erase(projectiles.begin() + i);
-                // std::cout << "Score: " << jake.GetScore() << std::endl;
-                std::stringstream ss;
+                if(enemies[j]->GetHeal() - jake.GetDamage() <= 0) {
+                    enemies.erase(enemies.begin() + j);
+                }
+                else {
+                    enemies[j]->UpdateHeal(-jake.GetDamage());
+                }
 
+                std::stringstream ss;
 				ss << "SCORE: " << jake.GetScore();
 				scoreLabel.setText(ss.str());
             }

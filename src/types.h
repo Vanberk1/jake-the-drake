@@ -1,7 +1,9 @@
 #pragma once
 
+const int SPRITE_SCALE = 3;
+
 const int WINDOW_WIDTH = 800;
-const int WINDOW_HEIGHT = 640;
+const int WINDOW_HEIGHT = 600;
 
 using EntityId = unsigned int;
 

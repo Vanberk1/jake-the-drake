@@ -11,6 +11,7 @@ private:
     int m_Vertical;
     Collider m_Collider;
     int m_Speed;
+    int m_Damage;
     int m_Score;
     std::vector<Bullet>* m_Projectiles;
     bool m_IsShooting;
@@ -29,5 +30,6 @@ public:
     void Render(SDL_Renderer* renderer);
     void AddPoints(int points);
     int GetScore() const;
+    int GetDamage() const;
     Collider GetCollider() const;
 };

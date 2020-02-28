@@ -23,8 +23,8 @@ void ShooterEnemy::Shoot(float deltaTime) {
     float dist = sqrt(dx * dx + dy * dy);
     // std::cout << "dx: " << dx << " - dy: " << dy << " - dist: " << dist << std::endl;
     Bullet projectile;
-    projectile.SetPosition(m_Position.x - 9, m_Position.y + (m_Body.h / 2) - 4); // height / 2
-    projectile.LoadTexture("feather", 22, 9, 1, false);
+    projectile.SetPosition(m_Position.x - 4, m_Position.y + (m_Body.h / 2) - 2); // height / 2
+    projectile.LoadTexture("enemy-bullet", 4, 4, 3, false);
     dx /= dist;
     dy /= dist;
     projectile.SetVelocity(dx * 200.0f, dy * 200.0f);

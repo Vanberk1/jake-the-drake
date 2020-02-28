@@ -20,6 +20,7 @@ private:
 public:
     EnemySpawner(int spawnRate, Duck* target, std::vector<Bullet>* projectiles);
     void Run(float deltaTime, std::vector<Enemy*>& enemies);
+    void SpawnObstacle(std::vector<Enemy*>& enemies);
     void SendWave(std::vector<Enemy*>& enemies);
     void SpawnBomb(std::vector<Enemy*>& enemies);
     void SpawnShooter(std::vector<Enemy*>& enemies);

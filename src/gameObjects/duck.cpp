@@ -6,6 +6,7 @@ Duck::Duck() {
     m_Horizontal = 0;
     m_Vertical = 0;
     m_Speed = 350;
+    m_Damage = 10;
     m_Score = 0; 
     m_IsShooting = false;
     m_ShootingTimer = 0.0f;
@@ -43,6 +44,10 @@ void Duck::AddPoints(int points) {
 
 int Duck::GetScore() const {
     return m_Score;
+}
+
+int Duck::GetDamage() const {
+    return m_Damage;
 }
 
 Collider Duck::GetCollider() const {

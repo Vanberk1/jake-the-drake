@@ -7,27 +7,29 @@ EnemySpawner::EnemySpawner(int spawnRate, Duck* target, std::vector<Bullet>* pro
 }
 
 void EnemySpawner::Run(float deltaTime, std::vector<Enemy*>& enemies) {
-    m_NormalTimer += deltaTime;
-    m_BombTimer += deltaTime;
     m_ShooterTimer += deltaTime;
 
     // std::cout << "Normal timer: " << m_NormalTimer << std::endl;
     // std::cout << "Bomb timer: " << m_BombTimer << std::endl;
 
-    if(m_NormalTimer >= m_SpawnRate / 2.0f) {
-        SendWave(enemies);
-        m_NormalTimer = 0;
-    }
-
-    if(m_BombTimer >= m_SpawnRate / 2.0f) {
-        SpawnBomb(enemies);
-        m_BombTimer = 0;
-    }
-
     if(m_ShooterTimer >= m_SpawnRate / 2.0f) {
+        SendWave(enemies);
         SpawnShooter(enemies);
+        SpawnBomb(enemies);
+        SpawnObstacle(enemies);
         m_ShooterTimer = 0;
     }
+}
+
+void EnemySpawner::SpawnObstacle(std::vector<Enemy*>& enemies) {
+    int heightRNG = m_Rng.Int(0, WINDOW_HEIGHT - 40);
+    NormalEnemy* obstacle = new NormalEnemy(WINDOW_WIDTH, heightRNG, -50, 0, 10);
+    obstacle->SetHeal(20);
+    obstacle->LoadTexture("lilypad", 16, 16, SPRITE_SCALE, true);
+    obstacle->AddAnimation("idle", 3, 200, 0);
+    obstacle->SetAnimation("idle");
+    obstacle->Init();
+    enemies.push_back(obstacle);
 }
 
 void EnemySpawner::SendWave(std::vector<Enemy*>& enemies) {
@@ -38,7 +40,8 @@ void EnemySpawner::SendWave(std::vector<Enemy*>& enemies) {
     int waveLength = 3;
     for(int i = 0; i < 1; ++i) {
         NormalEnemy* newEnemy = new NormalEnemy(xOffSet + i * delay, heightRNG, -vel, 0, 1);   
-        newEnemy->LoadTexture("normal-enemy", 32, 16, 2, true);
+        newEnemy->SetHeal(30);
+        newEnemy->LoadTexture("normal-enemy", 32, 16, SPRITE_SCALE, true);
         newEnemy->AddAnimation("idle", 3, 200, 0);
         newEnemy->SetAnimation("idle");
         newEnemy->Init();
@@ -49,9 +52,10 @@ void EnemySpawner::SendWave(std::vector<Enemy*>& enemies) {
 void EnemySpawner::SpawnBomb(std::vector<Enemy*>& enemies) { 
     int heightRNG = m_Rng.Int(0, WINDOW_HEIGHT - 40);
     BombEnemy* bomb = new BombEnemy(WINDOW_WIDTH, heightRNG, -150, 0, 10);
-    bomb->LoadTexture("bomb-enemy", 32, 16, 2, true);
-    bomb->AddAnimation("idle", 3, 300, 0);
-    bomb->AddAnimation("explode", 3, 90, 0);
+    bomb->SetHeal(30);
+    bomb->LoadTexture("bomb-enemy", 32, 21, SPRITE_SCALE, true);
+    bomb->AddAnimation("idle", 3, 200, 0);
+    bomb->AddAnimation("explode", 3, 80, 0);
     bomb->SetAnimation("idle");
     bomb->Init();
     bomb->SetTarget(m_Target);
@@ -61,7 +65,8 @@ void EnemySpawner::SpawnBomb(std::vector<Enemy*>& enemies) {
 void EnemySpawner::SpawnShooter(std::vector<Enemy*>& enemies) {
     int heightRNG = m_Rng.Int(0, WINDOW_HEIGHT - 40);
     ShooterEnemy* shooter = new ShooterEnemy(WINDOW_WIDTH, heightRNG, -100, 0, 10);
-    shooter->LoadTexture("normal-enemy", 32, 16, 2, true);
+    shooter->SetHeal(30);
+    shooter->LoadTexture("normal-enemy", 32, 16, SPRITE_SCALE, true);
     shooter->AddAnimation("idle", 3, 200, 0);
     shooter->SetAnimation("idle");
     shooter->Init();
