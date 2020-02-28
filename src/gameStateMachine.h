@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <memory>
-#include "gameState.h"
+#include "states/gameState.h"
 
 class GameStateMachine {
 private:

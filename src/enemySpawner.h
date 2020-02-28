@@ -2,10 +2,10 @@
 
 #include <vector>
 #include <ctime>
-#include "duck.h"
-#include "normalEnemy.h"
-#include "bombEnemy.h"
-#include "shooterEnemy.h"
+#include "gameObjects/duck.h"
+#include "gameObjects/normalEnemy.h"
+#include "gameObjects/bombEnemy.h"
+#include "gameObjects/shooterEnemy.h"
 #include "util/random.h"
 
 class EnemySpawner {

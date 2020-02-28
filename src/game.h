@@ -9,12 +9,12 @@
 #include <sstream>
 #include <memory>
 #include <ctime>
-#include "gameObject.h"
 #include "types.h"
-#include "menuState.h"
-#include "textureManager.h"
 #include "fontManager.h"
 #include "gameStateMachine.h"
+#include "states/menuState.h"
+#include "gameObjects/gameObject.h"
+#include "textureManager.h"
 
 extern bool IsRunning;
 

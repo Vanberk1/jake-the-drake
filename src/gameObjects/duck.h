@@ -2,8 +2,8 @@
 
 #include <vector>
 #include "renderable.h"
-#include "collider.h"
 #include "bullet.h"
+#include "../collider.h"
 
 class Duck : public Renderable {
 private:

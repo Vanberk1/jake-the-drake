@@ -1,7 +1,7 @@
 #pragma once
 
 #include "renderable.h"
-#include "collider.h"
+#include "../collider.h"
 
 class Bullet : public Renderable {
 private:

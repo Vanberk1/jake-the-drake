@@ -7,11 +7,11 @@
 #include <cstring>    
 #include <sstream>
 #include "gameState.h"
-#include "gameStateMachine.h"
 #include "playState.h"
-#include "fontManager.h"
-#include "textLabel.h"
-#include "game.h"
+#include "../gameStateMachine.h"
+#include "../fontManager.h"
+#include "../textLabel.h"
+#include "../game.h"
 
 extern FontManager fontManager;
 extern GameStateMachine gameStateMachine;

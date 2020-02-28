@@ -1,10 +1,10 @@
 #pragma once
 
-#include "gameObject.h"
-#include "animation.h"
-#include "textureManager.h"
 #include <iostream>
 #include <map>
+#include "gameObject.h"
+#include "../animation.h"
+#include "../textureManager.h"
 
 extern TextureManager textureManager;
 

@@ -4,15 +4,15 @@
 #include <vector>
 #include <cstring>    
 #include <sstream>
-#include "states/gameState.h"
-#include "util/random.h"
-#include "gameObjects/duck.h"
-#include "gameObjects/enemy.h"
-#include "gameObjects/bullet.h"
-#include "enemySpawner.h"
-#include "fontManager.h"
-#include "textLabel.h"
-#include "game.h"
+#include "gameState.h"
+#include "../enemySpawner.h"
+#include "../fontManager.h"
+#include "../textLabel.h"
+#include "../game.h"
+#include "../gameObjects/duck.h"
+#include "../gameObjects/enemy.h"
+#include "../gameObjects/bullet.h"
+#include "../util/random.h"
 
 extern FontManager fontManager;
 
