@@ -58,6 +58,7 @@ void Game::LoadLevel() {
     textureManager.AddTexture("feather", "./assets/images/feather.png");
     textureManager.AddTexture("lilypad", "./assets/images/lilypad.png");
     textureManager.AddTexture("enemy-bullet", "./assets/images/enemy-bullet.png");
+    textureManager.AddTexture("background", "./assets/images/background.png");
 
     fontManager.AddFont("arial", 24, "./assets/fonts/arial.ttf");
 

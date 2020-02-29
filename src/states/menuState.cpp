@@ -9,7 +9,7 @@ void MenuState::OnEnter() {
     m_PlayTextLabel.init(m_Renderer, font);
     m_ExitTextLabel.init(m_Renderer, font);
 
-    m_PlayButton = { 300, 160, 200, 80 };
+    m_PlayButton = { (WINDOW_WIDTH / 2) - 100, 130, 200, 80 };
     m_PlayTextLabel.createLabel("PLAY!", { 0, 0, 0, 255 });
     SDL_Rect* textPosition = m_PlayTextLabel.getPosition();
     textPosition->x = (m_PlayButton.x + (m_PlayButton.w / 2)) - (textPosition->w / 2);
@@ -18,7 +18,7 @@ void MenuState::OnEnter() {
     m_PlayTextLabel.setText("PLAY!");
 
 
-    m_ExitButton = { 300, 360, 200, 80 };
+    m_ExitButton = { (WINDOW_WIDTH / 2) - 100, 330, 200, 80 };
     m_ExitTextLabel.createLabel("EXIT!", { 0, 0, 0, 255 }); 
     textPosition = m_ExitTextLabel.getPosition();
     textPosition->x = (m_ExitButton.x + (m_ExitButton.w / 2)) - (textPosition->w / 2);

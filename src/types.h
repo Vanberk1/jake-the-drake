@@ -1,9 +1,11 @@
 #pragma once
 
 const int SPRITE_SCALE = 3;
-
-const int WINDOW_WIDTH = 800;
-const int WINDOW_HEIGHT = 600;
+const int MAP_SCALE = 5;
+const int w = 160;
+const int h = 96;
+const int WINDOW_WIDTH = w * MAP_SCALE;
+const int WINDOW_HEIGHT = h * MAP_SCALE;
 
 using EntityId = unsigned int;
 

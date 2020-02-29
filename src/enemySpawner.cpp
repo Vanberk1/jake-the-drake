@@ -23,7 +23,7 @@ void EnemySpawner::Run(float deltaTime, std::vector<Enemy*>& enemies) {
 
 void EnemySpawner::SpawnObstacle(std::vector<Enemy*>& enemies) {
     int heightRNG = m_Rng.Int(0, WINDOW_HEIGHT - 40);
-    NormalEnemy* obstacle = new NormalEnemy(WINDOW_WIDTH, heightRNG, -50, 0, 10);
+    NormalEnemy* obstacle = new NormalEnemy(WINDOW_WIDTH, heightRNG, -70, 0, 10);
     obstacle->SetHeal(20);
     obstacle->LoadTexture("lilypad", 16, 16, SPRITE_SCALE, true);
     obstacle->AddAnimation("idle", 3, 200, 0);

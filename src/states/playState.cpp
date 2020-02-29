@@ -7,6 +7,8 @@ PlayState::PlayState(SDL_Renderer* renderer) {
 }
 
 void PlayState::OnEnter() {
+    background.Init("background", -70, 160, 96);
+
     jake.SetPosition(100, 100);
     jake.LoadTexture("duck", 16, 16, SPRITE_SCALE, true);
     jake.AddAnimation("idle", 3, 200, 0);
@@ -108,6 +110,7 @@ void PlayState::InputHandler(SDL_Event event) {
 
 void PlayState::Update(float deltaTime) {
     if(!m_GameOver && !m_IsPaused) {
+        background.Update(deltaTime);
         spawner->Run(deltaTime, enemies);
 
         jake.Update(deltaTime);
@@ -138,6 +141,7 @@ void PlayState::Update(float deltaTime) {
 }
 
 void PlayState::Render(SDL_Renderer* renderer) {
+    background.Render(renderer);
     jake.Render(renderer);
     for(Bullet& projectile : projectiles) {
         projectile.Render(renderer);

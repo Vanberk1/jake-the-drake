@@ -5,6 +5,7 @@
 #include <cstring>    
 #include <sstream>
 #include "gameState.h"
+#include "../background.h"
 #include "../enemySpawner.h"
 #include "../fontManager.h"
 #include "../textLabel.h"
@@ -20,6 +21,8 @@ class PlayState : public GameState {
 private:
     bool m_IsPaused;
     bool m_GameOver;
+
+    Background background;
 
     Duck jake;
     EnemySpawner* spawner;
