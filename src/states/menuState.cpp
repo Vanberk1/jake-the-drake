@@ -9,7 +9,7 @@ void MenuState::OnEnter() {
     m_PlayTextLabel.init(m_Renderer, font);
     m_ExitTextLabel.init(m_Renderer, font);
 
-    m_PlayButton = { (WINDOW_WIDTH / 2) - 100, 130, 200, 80 };
+    m_PlayButton = { (WINDOW_WIDTH / 2) - 100, 100, 200, 80 };
     m_PlayTextLabel.createLabel("PLAY!", { 0, 0, 0, 255 });
     SDL_Rect* textPosition = m_PlayTextLabel.getPosition();
     textPosition->x = (m_PlayButton.x + (m_PlayButton.w / 2)) - (textPosition->w / 2);
@@ -18,7 +18,7 @@ void MenuState::OnEnter() {
     m_PlayTextLabel.setText("PLAY!");
 
 
-    m_ExitButton = { (WINDOW_WIDTH / 2) - 100, 330, 200, 80 };
+    m_ExitButton = { (WINDOW_WIDTH / 2) - 100, 300, 200, 80 };
     m_ExitTextLabel.createLabel("EXIT!", { 0, 0, 0, 255 }); 
     textPosition = m_ExitTextLabel.getPosition();
     textPosition->x = (m_ExitButton.x + (m_ExitButton.w / 2)) - (textPosition->w / 2);
@@ -30,11 +30,11 @@ void MenuState::OnEnter() {
 void MenuState::InputHandler(SDL_Event event) {
     if(event.type == SDL_MOUSEBUTTONDOWN) {
         if(event.button.button == SDL_BUTTON_LEFT) {
-            if(event.button.x > 300 && event.button.x < 500 && event.button.y > 160 && event.button.y < 240) {
+            if(event.button.x > 300 && event.button.x < 500 && event.button.y > 100 && event.button.y < 180) {
                 std::cout << "Play button pressed!" << std::endl;
                 gameStateMachine.PushState(std::make_unique<PlayState>(m_Renderer));
             }
-            if(event.button.x > 300 && event.button.x < 500 && event.button.y > 360 && event.button.y < 440) {
+            if(event.button.x > 300 && event.button.x < 500 && event.button.y > 300 && event.button.y < 380) {
                 std::cout << "Exit button pressed!" << std::endl;
                 IsRunning = false;
             }

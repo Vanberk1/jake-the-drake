@@ -177,9 +177,9 @@ void PlayState::ProjectileEnemyCollision() {
     for(int i = 0; i < projectiles.size(); ++i) {
         for(int j = 0; j < enemies.size(); ++j) {
             if(projectiles[i].GetCollider().AABBCollision(enemies[j]->GetCollider())) {
-                jake.AddPoints(enemies[j]->GetRewardPoints());
                 projectiles.erase(projectiles.begin() + i);
                 if(enemies[j]->GetHeal() - jake.GetDamage() <= 0) {
+                    jake.AddPoints(enemies[j]->GetRewardPoints());
                     enemies.erase(enemies.begin() + j);
                 }
                 else {
