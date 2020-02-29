@@ -69,9 +69,6 @@ void Game::InputHandler() {
         if(m_Event.type == SDL_QUIT) {
             IsRunning = false;
         }
-        if(m_Event.key.keysym.sym == SDLK_ESCAPE) {
-            IsRunning = false;
-        }
     }
     gameStateMachine.InputHandler(m_Event);
 }

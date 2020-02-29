@@ -18,7 +18,9 @@ extern FontManager fontManager;
 
 class PlayState : public GameState {
 private:
-    bool gameOver;
+    bool m_IsPaused;
+    bool m_GameOver;
+
     Duck jake;
     EnemySpawner* spawner;
     std::vector<Bullet> projectiles;
@@ -26,6 +28,7 @@ private:
     std::vector<Enemy*> enemies;
 
     TextLabel scoreLabel;
+    TextLabel m_PauseText;
     TextLabel m_GameOverText;
 	TextLabel m_RestartText;
 

@@ -17,11 +17,11 @@ void Renderable::LoadTexture(std::string name, int width, int height, int scale,
 void Renderable::AddAnimation(std::string animName, int framesNum, int animationSpeed, int animationCount) {
     if(m_Animations.find(animName) == m_Animations.end()) {
         m_Animations.insert(std::pair<std::string, Animation>(animName, { framesNum, animationSpeed, animationCount }));
-        std::cout << "Animation["<< animationCount << "]: " << animName << "[f:" << framesNum << ",s:" << animationSpeed << "] ADDED!" << std::endl;
+        // std::cout << "Animation["<< animationCount << "]: " << animName << "[f:" << framesNum << ",s:" << animationSpeed << "] ADDED!" << std::endl;
     }
     else {
         m_Animations[animName] = { framesNum, animationSpeed, animationCount };
-        std::cout << "Animation: " << animName << "[f:" << framesNum << ",s:" << animationSpeed << "] CHANGED!" << std::endl;
+        // std::cout << "Animation: " << animName << "[f:" << framesNum << ",s:" << animationSpeed << "] CHANGED!" << std::endl;
     }
     m_ActualAnimation = animName;
 }
@@ -29,10 +29,10 @@ void Renderable::AddAnimation(std::string animName, int framesNum, int animation
 void Renderable::SetAnimation(std::string animName) {
     if(m_Animations.find(animName) != m_Animations.end()) {
         m_ActualAnimation = animName;
-        std::cout << "Animation: " << animName << " changed" << std::endl;
+        // std::cout << "Animation: " << animName << " changed" << std::endl;
     }
     else {
-        std::cout << "Animation: " << animName << " not found!" << std::endl;
+        // std::cout << "Animation: " << animName << " not found!" << std::endl;
     }
 }
 
