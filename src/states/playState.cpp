@@ -7,7 +7,9 @@ PlayState::PlayState(SDL_Renderer* renderer) {
 }
 
 void PlayState::OnEnter() {
+    std::cout << "test 3" << std::endl;
     background.Init("background", -70, 160, 96);
+    std::cout << "test 4" << std::endl;
 
     jake.SetPosition(100, 100);
     jake.LoadTexture("duck", 16, 16, SPRITE_SCALE, true);
@@ -101,8 +103,10 @@ void PlayState::InputHandler(SDL_Event event) {
     }
     else {
         if(event.key.keysym.scancode == SDL_SCANCODE_R) {
+            std::cout << "test 1" << std::endl;
 			gameStateMachine.Restart(std::make_unique<PlayState>(m_Renderer));
-		}
+		    std::cout << "test 2" << std::endl;
+        }
     }
 
     memcpy(prevKeyState, currentKeyState, keyLength);
