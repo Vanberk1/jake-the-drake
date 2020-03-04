@@ -30,7 +30,8 @@ private:
     std::vector<Bullet> enemyProjectiles;
     std::vector<Enemy*> enemies;
 
-    TextLabel scoreLabel;
+    TextLabel m_HealText;
+    TextLabel m_ScoreLabel;
     TextLabel m_PauseText;
     TextLabel m_GameOverText;
 	TextLabel m_RestartText;
@@ -41,6 +42,7 @@ private:
 
     bool KeyPressed(SDL_Scancode scanCode);
     bool KeyReleased(SDL_Scancode scanCode);
+    bool IsKeyPressed(SDL_Scancode scanCode);
 public:
     PlayState(SDL_Renderer* renderer);
     void OnEnter() override;

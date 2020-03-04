@@ -7,9 +7,7 @@ PlayState::PlayState(SDL_Renderer* renderer) {
 }
 
 void PlayState::OnEnter() {
-    std::cout << "test 3" << std::endl;
     background.Init("background", -70, 160, 96);
-    std::cout << "test 4" << std::endl;
 
     jake.SetPosition(100, 100);
     jake.LoadTexture("duck", 16, 16, SPRITE_SCALE, true);
@@ -17,15 +15,21 @@ void PlayState::OnEnter() {
     jake.AddAnimation("yellow", 3, 200, 1);
     jake.SetAnimation("idle");
     jake.Init(&projectiles);
+    jake.SetHeal(3);
 
     // std::cout << "Score: " << jake.GetScore() << std::endl;
     TTF_Font* font = fontManager.GetFont("arial", 24);
     m_PauseText.init(m_Renderer, font);
     m_GameOverText.init(m_Renderer, font);
 	m_RestartText.init(m_Renderer, font);
-    scoreLabel.init(m_Renderer, font);
-    scoreLabel.setPosition({ 25, 25, 0 , 0 });
-	scoreLabel.createLabel("SCORE: 0", { 255, 255, 255, 255 }); 
+    m_ScoreLabel.init(m_Renderer, font);
+    m_ScoreLabel.setPosition({ 550, 25, 0, 0 });
+	m_ScoreLabel.createLabel("SCORE: 0", { 255, 255, 255, 255 }); 
+    m_HealText.init(m_Renderer, font);
+    m_HealText.setPosition({ 25, 25, 0, 0 });
+    std::stringstream ss;
+    ss << jake.GetActualHeal() << "/" << jake.GetMaxHeal();
+	m_HealText.createLabel(ss.str(), { 255, 255, 255, 255 }); 
 
     m_PauseText.createLabel("PAUSE!", { 255, 255, 255, 255 });
     SDL_Rect* textPosition = m_PauseText.getPosition();
@@ -67,15 +71,19 @@ void PlayState::InputHandler(SDL_Event event) {
         }
         if(!m_IsPaused) {
             if(KeyPressed(SDL_SCANCODE_W)) {
+                // std::cout << "W Pressed" << std::endl;
                 jake.MoveVertical(-1);
             }
             if(KeyPressed(SDL_SCANCODE_A)) {
+                // std::cout << "A Pressed" << std::endl;
                 jake.MoveHorizontal(-1);
             }
             if(KeyPressed(SDL_SCANCODE_S)) {
+                // std::cout << "S Pressed" << std::endl;
                 jake.MoveVertical(1);
             }
             if(KeyPressed(SDL_SCANCODE_D)) {
+                // std::cout << "D Pressed" << std::endl;
                 jake.MoveHorizontal(1);
             }
             if(KeyPressed(SDL_SCANCODE_SPACE)) {
@@ -84,16 +92,42 @@ void PlayState::InputHandler(SDL_Event event) {
             }
             
             if(KeyReleased(SDL_SCANCODE_W)) {
-                jake.MoveVertical(0);
+                if(IsKeyPressed(SDL_SCANCODE_S)) {
+                    // std::cout << "W Released : S Still Press" << std::endl;
+                    jake.MoveVertical(1);
+                } else {
+                    // std::cout << "W Released : S Not Press" << std::endl;
+                    jake.MoveVertical(0);
+                }
             }
             if(KeyReleased(SDL_SCANCODE_A)) {
-                jake.MoveHorizontal(0);
+                if(IsKeyPressed(SDL_SCANCODE_D)) {
+                    // std::cout << "A Released : D Still Press" << std::endl;
+                    jake.MoveHorizontal(1);
+                }
+                else {
+                    // std::cout << "A Released : D Not Press" << std::endl;
+                    jake.MoveHorizontal(0);
+                }
             }
             if(KeyReleased(SDL_SCANCODE_S)) {
-                jake.MoveVertical(0);
+                if(IsKeyPressed(SDL_SCANCODE_W)) {
+                    jake.MoveVertical(-1);
+                    // std::cout << "S Released : W Still Press" << std::endl;
+                } else {
+                    // std::cout << "S Released : W Not Press" << std::endl;
+                    jake.MoveVertical(0);
+                }
             }
             if(KeyReleased(SDL_SCANCODE_D)) {
-                jake.MoveHorizontal(0);
+                if(IsKeyPressed(SDL_SCANCODE_A)) {
+                    // std::cout << "A Released : D Still Press" << std::endl;
+                    jake.MoveHorizontal(-1);
+                }
+                else {
+                    // std::cout << "A Released : D Not Press" << std::endl;
+                    jake.MoveHorizontal(0);
+                }
             }
             if(KeyReleased(SDL_SCANCODE_SPACE)) {
                 jake.Shooting(false);
@@ -103,9 +137,7 @@ void PlayState::InputHandler(SDL_Event event) {
     }
     else {
         if(event.key.keysym.scancode == SDL_SCANCODE_R) {
-            std::cout << "test 1" << std::endl;
 			gameStateMachine.Restart(std::make_unique<PlayState>(m_Renderer));
-		    std::cout << "test 2" << std::endl;
         }
     }
 
@@ -156,7 +188,8 @@ void PlayState::Render(SDL_Renderer* renderer) {
     for(Enemy* enemy : enemies) {
         enemy->Render(renderer);
     }
-    scoreLabel.draw(renderer);
+    m_ScoreLabel.draw(renderer);
+    m_HealText.draw(renderer);
 
     if(m_GameOver) {
 		m_GameOverText.draw(m_Renderer);
@@ -172,7 +205,14 @@ void PlayState::Render(SDL_Renderer* renderer) {
 void PlayState::PlayerEnemyCollision() {
     for(int i = 0; i < enemies.size(); ++i) {
         if(jake.GetCollider().AABBCollision(enemies[i]->GetCollider())) {
-           m_GameOver = true;
+            enemies.erase(enemies.begin() + i);
+            jake.UpdateHeal(-1);
+            std::stringstream ss;
+            ss << jake.GetActualHeal() << "/" << jake.GetMaxHeal();
+            m_HealText.setText(ss.str());
+            if(!jake.GetActualHeal()) {
+                m_GameOver = true;
+            }
         }
     }
 }
@@ -192,7 +232,7 @@ void PlayState::ProjectileEnemyCollision() {
 
                 std::stringstream ss;
 				ss << "SCORE: " << jake.GetScore();
-				scoreLabel.setText(ss.str());
+				m_ScoreLabel.setText(ss.str());
             }
         }
     }
@@ -201,7 +241,14 @@ void PlayState::ProjectileEnemyCollision() {
 void PlayState::ProjectilePlayerCollision() {
     for(int i = 0; i < enemyProjectiles.size(); ++i) {
         if(jake.GetCollider().AABBCollision(enemyProjectiles[i].GetCollider())) {
-            m_GameOver = true;
+            enemyProjectiles.erase(enemyProjectiles.begin() + i);
+            jake.UpdateHeal(-1);
+            std::stringstream ss;
+            ss << jake.GetActualHeal() << "/" << jake.GetMaxHeal();
+            m_HealText.setText(ss.str());
+            if(!jake.GetActualHeal()) {
+                m_GameOver = true;
+            }
         }
     }
 }
@@ -223,4 +270,9 @@ bool PlayState::KeyPressed(SDL_Scancode scanCode) {
 
 bool PlayState::KeyReleased(SDL_Scancode scanCode) {
     return prevKeyState[scanCode] && !currentKeyState[scanCode];
+}
+
+bool PlayState::IsKeyPressed
+(SDL_Scancode scanCode) {
+    return currentKeyState[scanCode];
 }

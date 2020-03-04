@@ -21,6 +21,11 @@ void Duck::InitCollider() {
     m_Collider.Init(m_Body, PLAYER);
 }
 
+void Duck::SetHeal(int max) {
+    m_MaxHeal = max;
+    m_ActualHeal = max;
+}
+
 void Duck::MoveHorizontal(int direction) {
     m_Horizontal = direction;
 }
@@ -42,6 +47,16 @@ void Duck::AddPoints(int points) {
     m_Score += points;
 }
 
+void Duck::UpdateHeal(int value) {
+    m_ActualHeal += value;
+    if(m_ActualHeal < 0) {
+        m_ActualHeal = 0;
+    }
+    if(m_ActualHeal > m_MaxHeal) {
+        m_ActualHeal = m_MaxHeal;
+    }
+}
+
 int Duck::GetScore() const {
     return m_Score;
 }
@@ -52,6 +67,14 @@ int Duck::GetDamage() const {
 
 Collider Duck::GetCollider() const {
     return m_Collider;
+}
+
+int Duck::GetActualHeal() const {
+    return m_ActualHeal;
+}
+
+int Duck::GetMaxHeal() const {
+    return m_MaxHeal;
 }
 
 void Duck::Movement(float deltaTime) {
@@ -86,9 +109,9 @@ void Duck::Movement(float deltaTime) {
         m_Velocity.x = 0;
         m_Position.x = WINDOW_WIDTH - m_Body.w;
     }
-    if(m_Position.y < 0) {
+    if(m_Position.y < 100) {
         m_Velocity.y = 0;
-        m_Position.y = 0;
+        m_Position.y = 100;
     }
     if(m_Position.y + m_Body.h > WINDOW_HEIGHT) {
         m_Velocity.y = 0;
