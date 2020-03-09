@@ -11,7 +11,7 @@ class Background {
 private:
     SDL_Texture* m_BackgroundImage;
     int m_Speed;
-    SDL_Rect m_Poisition;
+    SDL_Rect m_Position;
 public:
     Background();
     void Init(std::string name, int speed, int width, int height);

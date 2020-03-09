@@ -15,15 +15,15 @@ Duck::Duck() {
 void Duck::Init(std::vector<Bullet>* projectiles) {
     m_Projectiles = projectiles;
     InitCollider();
+    m_Health.Init();
 }
 
 void Duck::InitCollider() {
     m_Collider.Init(m_Body, PLAYER);
 }
 
-void Duck::SetHeal(int max) {
-    m_MaxHeal = max;
-    m_ActualHeal = max;
+void Duck::SetHealth(int max) {
+    m_Health.SetHealth(max);
 }
 
 void Duck::MoveHorizontal(int direction) {
@@ -47,14 +47,8 @@ void Duck::AddPoints(int points) {
     m_Score += points;
 }
 
-void Duck::UpdateHeal(int value) {
-    m_ActualHeal += value;
-    if(m_ActualHeal < 0) {
-        m_ActualHeal = 0;
-    }
-    if(m_ActualHeal > m_MaxHeal) {
-        m_ActualHeal = m_MaxHeal;
-    }
+void Duck::UpdateHealth(int value) {
+    m_Health.UpdateHealth(value);
 }
 
 int Duck::GetScore() const {
@@ -69,12 +63,12 @@ Collider Duck::GetCollider() const {
     return m_Collider;
 }
 
-int Duck::GetActualHeal() const {
-    return m_ActualHeal;
+int Duck::GetActualHealth() const {
+    return m_Health.GetActualHealth();
 }
 
-int Duck::GetMaxHeal() const {
-    return m_MaxHeal;
+int Duck::GetMaxHealth() const {
+    return m_Health.GetMaxHealth();
 }
 
 void Duck::Movement(float deltaTime) {
@@ -148,4 +142,5 @@ void Duck::Render(SDL_Renderer* renderer) {
         m_Source.y = m_Source.h * m_Animations[m_ActualAnimation].m_AnimationCount;
     }
     SDL_RenderCopy(renderer, m_Texture, &m_Source, &m_Body);
+    m_Health.Render(renderer);
 }

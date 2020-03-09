@@ -15,7 +15,7 @@ void PlayState::OnEnter() {
     jake.AddAnimation("yellow", 3, 200, 1);
     jake.SetAnimation("idle");
     jake.Init(&projectiles);
-    jake.SetHeal(3);
+    jake.SetHealth(3);
 
     // std::cout << "Score: " << jake.GetScore() << std::endl;
     TTF_Font* font = fontManager.GetFont("arial", 24);
@@ -25,11 +25,11 @@ void PlayState::OnEnter() {
     m_ScoreLabel.init(m_Renderer, font);
     m_ScoreLabel.setPosition({ 550, 25, 0, 0 });
 	m_ScoreLabel.createLabel("SCORE: 0", { 255, 255, 255, 255 }); 
-    m_HealText.init(m_Renderer, font);
-    m_HealText.setPosition({ 25, 25, 0, 0 });
+    m_HealthText.init(m_Renderer, font);
+    m_HealthText.setPosition({ 25, 25, 0, 0 });
     std::stringstream ss;
-    ss << jake.GetActualHeal() << "/" << jake.GetMaxHeal();
-	m_HealText.createLabel(ss.str(), { 255, 255, 255, 255 }); 
+    ss << jake.GetActualHealth() << "/" << jake.GetMaxHealth();
+	m_HealthText.createLabel(ss.str(), { 255, 255, 255, 255 }); 
 
     m_PauseText.createLabel("PAUSE!", { 255, 255, 255, 255 });
     SDL_Rect* textPosition = m_PauseText.getPosition();
@@ -189,7 +189,7 @@ void PlayState::Render(SDL_Renderer* renderer) {
         enemy->Render(renderer);
     }
     m_ScoreLabel.draw(renderer);
-    m_HealText.draw(renderer);
+    // m_HealthText.draw(renderer);
 
     if(m_GameOver) {
 		m_GameOverText.draw(m_Renderer);
@@ -206,11 +206,11 @@ void PlayState::PlayerEnemyCollision() {
     for(int i = 0; i < enemies.size(); ++i) {
         if(jake.GetCollider().AABBCollision(enemies[i]->GetCollider())) {
             enemies.erase(enemies.begin() + i);
-            jake.UpdateHeal(-1);
+            jake.UpdateHealth(-1);
             std::stringstream ss;
-            ss << jake.GetActualHeal() << "/" << jake.GetMaxHeal();
-            m_HealText.setText(ss.str());
-            if(!jake.GetActualHeal()) {
+            ss << jake.GetActualHealth() << "/" << jake.GetMaxHealth();
+            m_HealthText.setText(ss.str());
+            if(!jake.GetActualHealth()) {
                 m_GameOver = true;
             }
         }
@@ -222,12 +222,12 @@ void PlayState::ProjectileEnemyCollision() {
         for(int j = 0; j < enemies.size(); ++j) {
             if(projectiles[i].GetCollider().AABBCollision(enemies[j]->GetCollider())) {
                 projectiles.erase(projectiles.begin() + i);
-                if(enemies[j]->GetHeal() - jake.GetDamage() <= 0) {
+                if(enemies[j]->GetHealth() - jake.GetDamage() <= 0) {
                     jake.AddPoints(enemies[j]->GetRewardPoints());
                     enemies.erase(enemies.begin() + j);
                 }
                 else {
-                    enemies[j]->UpdateHeal(-jake.GetDamage());
+                    enemies[j]->UpdateHealth(-jake.GetDamage());
                 }
 
                 std::stringstream ss;
@@ -242,11 +242,11 @@ void PlayState::ProjectilePlayerCollision() {
     for(int i = 0; i < enemyProjectiles.size(); ++i) {
         if(jake.GetCollider().AABBCollision(enemyProjectiles[i].GetCollider())) {
             enemyProjectiles.erase(enemyProjectiles.begin() + i);
-            jake.UpdateHeal(-1);
+            jake.UpdateHealth(-1);
             std::stringstream ss;
-            ss << jake.GetActualHeal() << "/" << jake.GetMaxHeal();
-            m_HealText.setText(ss.str());
-            if(!jake.GetActualHeal()) {
+            ss << jake.GetActualHealth() << "/" << jake.GetMaxHealth();
+            m_HealthText.setText(ss.str());
+            if(!jake.GetActualHealth()) {
                 m_GameOver = true;
             }
         }

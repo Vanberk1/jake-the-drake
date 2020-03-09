@@ -30,7 +30,7 @@ private:
     std::vector<Bullet> enemyProjectiles;
     std::vector<Enemy*> enemies;
 
-    TextLabel m_HealText;
+    TextLabel m_HealthText;
     TextLabel m_ScoreLabel;
     TextLabel m_PauseText;
     TextLabel m_GameOverText;

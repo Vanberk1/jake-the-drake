@@ -3,6 +3,7 @@
 #include <vector>
 #include "renderable.h"
 #include "bullet.h"
+#include "../healthBar.h"
 #include "../collider.h"
 
 class Duck : public Renderable {
@@ -16,8 +17,7 @@ private:
     std::vector<Bullet>* m_Projectiles;
     bool m_IsShooting;
     float m_ShootingTimer;
-    int m_ActualHeal;
-    int m_MaxHeal;
+    HealthBar m_Health;
 
     void Movement(float deltaTime);
     void Shoot();
@@ -25,8 +25,8 @@ public:
     Duck();
     void Init(std::vector<Bullet>* projectiles);
     void InitCollider();
-    void SetHeal(int max);
-    void UpdateHeal(int value);
+    void SetHealth(int max);
+    void UpdateHealth(int value);
     void MoveHorizontal(int direction);
     void MoveVertical(int direction);
     void Shooting(bool shooting);
@@ -36,6 +36,6 @@ public:
     int GetScore() const;
     int GetDamage() const;
     Collider GetCollider() const;
-    int GetActualHeal() const;
-    int GetMaxHeal() const;
+    int GetActualHealth() const;
+    int GetMaxHealth() const;
 };

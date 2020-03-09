@@ -1,23 +1,23 @@
 #include "enemy.h"
 #include <iostream>
 
-void Enemy::SetHeal(int max) {
-    m_MaxHeal = max;
-    m_ActualHeal = max;
+void Enemy::SetHealth(int max) {
+    m_MaxHealth = max;
+    m_ActualHealth = max;
 }
 
-void Enemy::UpdateHeal(int value) {
-    m_ActualHeal += value;
-    if(m_ActualHeal < 0) {
-        m_ActualHeal = 0;
+void Enemy::UpdateHealth(int value) {
+    m_ActualHealth += value;
+    if(m_ActualHealth < 0) {
+        m_ActualHealth = 0;
     }
-    if(m_ActualHeal > m_MaxHeal) {
-        m_ActualHeal = m_MaxHeal;
+    if(m_ActualHealth > m_MaxHealth) {
+        m_ActualHealth = m_MaxHealth;
     }
 }
 
-int Enemy::GetHeal() const {
-    return m_ActualHeal;
+int Enemy::GetHealth() const {
+    return m_ActualHealth;
 }
 
 int Enemy::GetRewardPoints() const {
