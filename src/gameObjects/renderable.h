@@ -18,12 +18,16 @@ protected:
     int m_Scale;
     std::map<std::string, Animation> m_Animations;
     std::string m_ActualAnimation;
+    std::string m_ClipAnimation;
     bool m_IsAnimated;
+    int m_ClipFrames;
+    bool m_Clip;
 
 public:
     void LoadTexture(std::string name, int width, int height, int scale, bool isAnimated);
     void AddAnimation(std::string animName, int framesNum, int animationSpeed, int animationCount);
     void SetAnimation(std::string animName);
+    void PlayAnimation(std::string animName);
     void Render(SDL_Renderer* renderer);
     
     glm::vec2 GetPosition() const;

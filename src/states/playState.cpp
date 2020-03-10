@@ -13,6 +13,7 @@ void PlayState::OnEnter() {
     jake.LoadTexture("duck", 16, 16, SPRITE_SCALE, true);
     jake.AddAnimation("idle", 3, 200, 0);
     jake.AddAnimation("yellow", 3, 200, 1);
+    jake.AddAnimation("shoot", 3, 100, 2);
     jake.SetAnimation("idle");
     jake.Init(&projectiles);
     jake.SetHealth(3);
@@ -88,7 +89,7 @@ void PlayState::InputHandler(SDL_Event event) {
             }
             if(KeyPressed(SDL_SCANCODE_SPACE)) {
                 jake.Shooting(true);
-                jake.SetAnimation("yellow");
+                jake.SetAnimation("shoot");
             }
             
             if(KeyReleased(SDL_SCANCODE_W)) {
@@ -206,6 +207,7 @@ void PlayState::PlayerEnemyCollision() {
     for(int i = 0; i < enemies.size(); ++i) {
         if(jake.GetCollider().AABBCollision(enemies[i]->GetCollider())) {
             enemies.erase(enemies.begin() + i);
+            jake.PlayAnimation("yellow");
             jake.UpdateHealth(-1);
             std::stringstream ss;
             ss << jake.GetActualHealth() << "/" << jake.GetMaxHealth();
@@ -242,10 +244,11 @@ void PlayState::ProjectilePlayerCollision() {
     for(int i = 0; i < enemyProjectiles.size(); ++i) {
         if(jake.GetCollider().AABBCollision(enemyProjectiles[i].GetCollider())) {
             enemyProjectiles.erase(enemyProjectiles.begin() + i);
+            jake.PlayAnimation("yellow");
             jake.UpdateHealth(-1);
-            std::stringstream ss;
-            ss << jake.GetActualHealth() << "/" << jake.GetMaxHealth();
-            m_HealthText.setText(ss.str());
+            // std::stringstream ss;
+            // ss << jake.GetActualHealth() << "/" << jake.GetMaxHealth();
+            // m_HealthText.setText(ss.str());
             if(!jake.GetActualHealth()) {
                 m_GameOver = true;
             }

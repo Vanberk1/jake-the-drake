@@ -42,13 +42,19 @@ void HealthBar::Update(float deltaTime) {
 }
 
 void HealthBar::Render(SDL_Renderer* renderer) {
-    SDL_Rect pos = m_Position;
+    SDL_Rect pos; 
+    pos.x = m_Position.x;
+    pos.y = m_Position.y;
+    pos.w = m_Position.w;
+    pos.h = m_Position.h;
+
     for(int i = 0; i < m_ActualHealth; ++i) {
-        pos.x = i * (m_Position.x + m_Position.w);
+        pos.x = 25 + i * 18 * 2;
         SDL_RenderCopy(renderer, m_Red, NULL, &pos);
     }
-    // for(int i = m_MaxHealth - m_ActualHealth; i < m_MaxHealth; ++i) {
-    //     pos.x = i * m_Position.x + m_Position.w + 3;
-    //     SDL_RenderCopy(renderer, m_Grey, NULL, &pos);
-    // }
+
+    for(int i = m_ActualHealth; i < m_MaxHealth; ++i) {
+        pos.x = 25 + i * 18 * 2;
+        SDL_RenderCopy(renderer, m_Grey, NULL, &pos);
+    }
 }

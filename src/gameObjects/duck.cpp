@@ -138,8 +138,18 @@ void Duck::Render(SDL_Renderer* renderer) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderDrawRect(renderer, &m_Collider.GetCollider());
     if(m_IsAnimated) {
-        m_Source.x = m_Source.w * static_cast<int>((SDL_GetTicks() / m_Animations[m_ActualAnimation].m_AnimationSpeed) % m_Animations[m_ActualAnimation].m_FramesNum);
-        m_Source.y = m_Source.h * m_Animations[m_ActualAnimation].m_AnimationCount;
+        if(!m_Clip) {
+            m_Source.x = m_Source.w * static_cast<int>((SDL_GetTicks() / m_Animations[m_ActualAnimation].m_AnimationSpeed) % m_Animations[m_ActualAnimation].m_FramesNum);
+            m_Source.y = m_Source.h * m_Animations[m_ActualAnimation].m_AnimationCount;
+        }
+        else {
+            int frame = static_cast<int>((SDL_GetTicks() / m_Animations[m_ClipAnimation].m_AnimationSpeed) % m_Animations[m_ClipAnimation].m_FramesNum);
+            m_Source.x = m_Source.w * frame;
+            m_Source.y = m_Source.h * m_Animations[m_ClipAnimation].m_AnimationCount;
+            if(frame >= m_ClipFrames - 1) {
+                m_Clip = false;
+            }
+        }
     }
     SDL_RenderCopy(renderer, m_Texture, &m_Source, &m_Body);
     m_Health.Render(renderer);
