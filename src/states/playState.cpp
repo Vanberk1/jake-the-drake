@@ -11,12 +11,13 @@ void PlayState::OnEnter() {
 
     jake.SetPosition(100, 100);
     jake.LoadTexture("duck", 16, 16, SPRITE_SCALE, true);
-    jake.AddAnimation("idle", 3, 200, 0);
-    jake.AddAnimation("yellow", 3, 200, 1);
-    jake.AddAnimation("shoot", 3, 100, 2);
+    jake.AddAnimation("idle", 3, 10, 0);
+    jake.AddAnimation("yellow", 3, 10, 1);
+    jake.AddAnimation("shoot", 3, 5, 2);
     jake.SetAnimation("idle");
     jake.Init(&projectiles);
     jake.SetHealth(3);
+    jake.SetShootingType(DOUBLE_SHOOT);
 
     // std::cout << "Score: " << jake.GetScore() << std::endl;
     TTF_Font* font = fontManager.GetFont("arial", 24);
@@ -72,19 +73,15 @@ void PlayState::InputHandler(SDL_Event event) {
         }
         if(!m_IsPaused) {
             if(KeyPressed(SDL_SCANCODE_W)) {
-                // std::cout << "W Pressed" << std::endl;
                 jake.MoveVertical(-1);
             }
             if(KeyPressed(SDL_SCANCODE_A)) {
-                // std::cout << "A Pressed" << std::endl;
                 jake.MoveHorizontal(-1);
             }
             if(KeyPressed(SDL_SCANCODE_S)) {
-                // std::cout << "S Pressed" << std::endl;
                 jake.MoveVertical(1);
             }
             if(KeyPressed(SDL_SCANCODE_D)) {
-                // std::cout << "D Pressed" << std::endl;
                 jake.MoveHorizontal(1);
             }
             if(KeyPressed(SDL_SCANCODE_SPACE)) {
@@ -94,39 +91,31 @@ void PlayState::InputHandler(SDL_Event event) {
             
             if(KeyReleased(SDL_SCANCODE_W)) {
                 if(IsKeyPressed(SDL_SCANCODE_S)) {
-                    // std::cout << "W Released : S Still Press" << std::endl;
                     jake.MoveVertical(1);
                 } else {
-                    // std::cout << "W Released : S Not Press" << std::endl;
                     jake.MoveVertical(0);
                 }
             }
             if(KeyReleased(SDL_SCANCODE_A)) {
                 if(IsKeyPressed(SDL_SCANCODE_D)) {
-                    // std::cout << "A Released : D Still Press" << std::endl;
                     jake.MoveHorizontal(1);
                 }
                 else {
-                    // std::cout << "A Released : D Not Press" << std::endl;
                     jake.MoveHorizontal(0);
                 }
             }
             if(KeyReleased(SDL_SCANCODE_S)) {
                 if(IsKeyPressed(SDL_SCANCODE_W)) {
                     jake.MoveVertical(-1);
-                    // std::cout << "S Released : W Still Press" << std::endl;
                 } else {
-                    // std::cout << "S Released : W Not Press" << std::endl;
                     jake.MoveVertical(0);
                 }
             }
             if(KeyReleased(SDL_SCANCODE_D)) {
                 if(IsKeyPressed(SDL_SCANCODE_A)) {
-                    // std::cout << "A Released : D Still Press" << std::endl;
                     jake.MoveHorizontal(-1);
                 }
                 else {
-                    // std::cout << "A Released : D Not Press" << std::endl;
                     jake.MoveHorizontal(0);
                 }
             }
@@ -190,7 +179,7 @@ void PlayState::Render(SDL_Renderer* renderer) {
         enemy->Render(renderer);
     }
     m_ScoreLabel.draw(renderer);
-    // m_HealthText.draw(renderer);
+    jake.RenderHealthBar(renderer);
 
     if(m_GameOver) {
 		m_GameOverText.draw(m_Renderer);

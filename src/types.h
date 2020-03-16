@@ -9,6 +9,12 @@ const int WINDOW_HEIGHT = h * MAP_SCALE;
 
 using EntityId = unsigned int;
 
+enum ShootingType {
+    NORMAL_SHOOT,
+    DOUBLE_SHOOT,
+    TRIPLE_SHOOT
+};
+
 enum ColliderTag {
     NONE,
     GUI,

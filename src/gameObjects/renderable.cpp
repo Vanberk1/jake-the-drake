@@ -5,7 +5,6 @@ void Renderable::LoadTexture(std::string name, int width, int height, int scale,
     m_Scale = scale;
     m_Source.x = 0;
     m_Source.y = 0;
-    m_ClipFrames = 0;
     m_Source.w = width;
     m_Source.h = height;
     m_Body.x = m_Position.x;
@@ -14,6 +13,7 @@ void Renderable::LoadTexture(std::string name, int width, int height, int scale,
     m_Body.h = height * scale;
     m_IsAnimated = isAnimated;
     m_Clip = false;
+    index = 0;
 }
 
 void Renderable::AddAnimation(std::string animName, int framesNum, int animationSpeed, int animationCount) {
@@ -31,6 +31,7 @@ void Renderable::AddAnimation(std::string animName, int framesNum, int animation
 void Renderable::SetAnimation(std::string animName) {
     if(m_Animations.find(animName) != m_Animations.end()) {
         m_ActualAnimation = animName;
+        index = 0;
         // std::cout << "Animation: " << animName << " changed" << std::endl;
     }
     else {
@@ -42,25 +43,28 @@ void Renderable::PlayAnimation(std::string animName) {
     if(m_Animations.find(animName) != m_Animations.end()) {
         std::cout << animName << std::endl; 
         m_ClipAnimation = animName;
-        m_ClipFrames = m_Animations[animName].m_FramesNum;
         m_Clip = true;
-        std::cout << m_ClipAnimation << " " << m_ClipFrames << " " << m_Clip << std::endl;
+        // std::cout << m_ClipAnimation << " " << m_Animations[animName].FramesNum << " " << m_Clip << std::endl;
+        index = 0;
     }
 }
 
 void Renderable::Render(SDL_Renderer* renderer) {
     if(m_IsAnimated) {
         if(!m_Clip) {
-            m_Source.x = m_Source.w * static_cast<int>((SDL_GetTicks() / m_Animations[m_ActualAnimation].m_AnimationSpeed) % m_Animations[m_ActualAnimation].m_FramesNum);
-            m_Source.y = m_Source.h * m_Animations[m_ActualAnimation].m_AnimationCount;
+            m_Source.x = m_Source.w * static_cast<int>((index / m_Animations[m_ActualAnimation].AnimationSpeed) % m_Animations[m_ActualAnimation].FramesNum);
+            m_Source.y = m_Source.h * m_Animations[m_ActualAnimation].AnimationCount;
+            index += 1;
         }
         else {
-            int frame = static_cast<int>((SDL_GetTicks() / m_Animations[m_ClipAnimation].m_AnimationSpeed) % m_Animations[m_ClipAnimation].m_FramesNum);
+            int frame = static_cast<int>((index / m_Animations[m_ClipAnimation].AnimationSpeed) % m_Animations[m_ClipAnimation].FramesNum);
+            // std::cout << "Actual frame: " << frame << std::endl;
             m_Source.x = m_Source.w * frame;
-            m_Source.y = m_Source.h * m_Animations[m_ClipAnimation].m_AnimationCount;
-            if(frame >= m_ClipFrames - 1) {
+            m_Source.y = m_Source.h * m_Animations[m_ClipAnimation].AnimationCount;
+            if(frame >= m_Animations[m_ClipAnimation].FramesNum - 1) {
                 m_Clip = false;
             }
+            index += 1;
         }
     }
     SDL_RenderCopy(renderer, m_Texture, &m_Source, &m_Body);

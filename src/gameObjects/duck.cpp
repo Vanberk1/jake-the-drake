@@ -10,6 +10,7 @@ Duck::Duck() {
     m_Score = 0; 
     m_IsShooting = false;
     m_ShootingTimer = 0.0f;
+    m_ShootingType = NORMAL_SHOOT;
 }
 
 void Duck::Init(std::vector<Bullet>* projectiles) {
@@ -41,6 +42,20 @@ void Duck::Shoot() {
     projectile.SetVelocity(500, 0);
     projectile.InitCollider();
     m_Projectiles->push_back(Bullet(projectile));
+}
+
+void Duck::DoubleShoot() {
+    Bullet projectile1, projectile2;
+    projectile1.SetPosition(m_Position.x + m_Body.w, m_Position.y + (m_Body.h / 2) - 4); // height / 2
+    projectile1.LoadTexture("feather", 22, 9, 1, false);
+    projectile1.SetVelocity(500, -15);
+    projectile1.InitCollider();
+    projectile2.SetPosition(m_Position.x + m_Body.w, m_Position.y + (m_Body.h / 2) - 4); // height / 2
+    projectile2.LoadTexture("feather", 22, 9, 1, false);
+    projectile2.SetVelocity(500, 15);
+    projectile2.InitCollider();
+    m_Projectiles->push_back(Bullet(projectile1));
+    m_Projectiles->push_back(Bullet(projectile2));
 }
 
 void Duck::AddPoints(int points) {
@@ -120,37 +135,36 @@ void Duck::Shooting(bool shooting) {
     m_IsShooting = shooting;
 }
 
+void Duck::SetShootingType(ShootingType type) {
+    m_ShootingType = type;
+}
+
 void Duck::Update(float deltaTime) {
     Movement(deltaTime);
 
     if(m_IsShooting) {
-        m_ShootingTimer += deltaTime;
-        if(m_ShootingTimer >= 0.1f) {
-            Shoot();
-            m_ShootingTimer = 0.0f;
+        switch (m_ShootingType)
+        {
+        case NORMAL_SHOOT:
+            m_ShootingTimer += deltaTime;
+            if(m_ShootingTimer >= 0.1f) {
+                Shoot();
+                m_ShootingTimer = 0.0f;
+            }
+            break;
+        case DOUBLE_SHOOT:
+            m_ShootingTimer += deltaTime;
+            if(m_ShootingTimer >= 0.1f) {
+                DoubleShoot();
+                m_ShootingTimer = 0.0f;
+            }
+            break;
         }
     }
 
     m_Collider.Update(m_Body);
 }
 
-void Duck::Render(SDL_Renderer* renderer) {
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderDrawRect(renderer, &m_Collider.GetCollider());
-    if(m_IsAnimated) {
-        if(!m_Clip) {
-            m_Source.x = m_Source.w * static_cast<int>((SDL_GetTicks() / m_Animations[m_ActualAnimation].m_AnimationSpeed) % m_Animations[m_ActualAnimation].m_FramesNum);
-            m_Source.y = m_Source.h * m_Animations[m_ActualAnimation].m_AnimationCount;
-        }
-        else {
-            int frame = static_cast<int>((SDL_GetTicks() / m_Animations[m_ClipAnimation].m_AnimationSpeed) % m_Animations[m_ClipAnimation].m_FramesNum);
-            m_Source.x = m_Source.w * frame;
-            m_Source.y = m_Source.h * m_Animations[m_ClipAnimation].m_AnimationCount;
-            if(frame >= m_ClipFrames - 1) {
-                m_Clip = false;
-            }
-        }
-    }
-    SDL_RenderCopy(renderer, m_Texture, &m_Source, &m_Body);
+void Duck::RenderHealthBar(SDL_Renderer* renderer) {
     m_Health.Render(renderer);
 }

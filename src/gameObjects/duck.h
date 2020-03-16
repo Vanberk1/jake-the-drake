@@ -18,9 +18,11 @@ private:
     bool m_IsShooting;
     float m_ShootingTimer;
     HealthBar m_Health;
+    ShootingType m_ShootingType;
 
     void Movement(float deltaTime);
     void Shoot();
+    void DoubleShoot();
 public:
     Duck();
     void Init(std::vector<Bullet>* projectiles);
@@ -30,8 +32,9 @@ public:
     void MoveHorizontal(int direction);
     void MoveVertical(int direction);
     void Shooting(bool shooting);
+    void SetShootingType(ShootingType type);
     void Update(float deltaTime) override;
-    void Render(SDL_Renderer* renderer);
+    void RenderHealthBar(SDL_Renderer* renderer);
     void AddPoints(int points);
     int GetScore() const;
     int GetDamage() const;

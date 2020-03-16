@@ -104,16 +104,16 @@ float Game::UpdateFPS() {
     SDL_SetRenderDrawColor(m_Renderer, 21, 21, 21, 255);
     SDL_RenderClear(m_Renderer);
 
-    float avgFPS = countedFrames / ( SDL_GetTicks() / 1000.f );
-    if( avgFPS > 100000 ) {
-        avgFPS = 0;
-    }
-    std::stringstream ss;
-    ss << avgFPS;
-    std::string windowTitle = "Jake The Drake - FPS: " + ss.str();
-    SDL_SetWindowTitle(m_Window, windowTitle.c_str());
+    // float avgFPS = countedFrames / ( SDL_GetTicks() / 1000.f );
+    // if( avgFPS > 100000 ) {
+    //     avgFPS = 0;
+    // }
+    // std::stringstream ss;
+    // ss << avgFPS;
+    // std::string windowTitle = "Jake The Drake - FPS: " + ss.str();
+    // SDL_SetWindowTitle(m_Window, windowTitle.c_str());
 
-    ++countedFrames;
+    // ++countedFrames;
 
     return deltaTime;
 }

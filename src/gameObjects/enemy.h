@@ -17,5 +17,4 @@ public:
     void UpdateHealth(int value);
     void Init();
     virtual void Update(float deltaTime) = 0;
-    void Render(SDL_Renderer* renderer);
 };

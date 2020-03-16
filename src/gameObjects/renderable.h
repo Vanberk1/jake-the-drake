@@ -20,8 +20,8 @@ protected:
     std::string m_ActualAnimation;
     std::string m_ClipAnimation;
     bool m_IsAnimated;
-    int m_ClipFrames;
     bool m_Clip;
+    int index;
 
 public:
     void LoadTexture(std::string name, int width, int height, int scale, bool isAnimated);
