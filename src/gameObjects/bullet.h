@@ -13,5 +13,4 @@ public:
     void InitCollider();
     Collider GetCollider() const;
     void Update(float deltaTime) override;
-    void Render(SDL_Renderer* renderer);
 };

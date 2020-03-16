@@ -28,9 +28,3 @@ void Bullet::Update(float deltaTime) {
 
     m_Collider.Update(m_Body);
 }
-
-void Bullet::Render(SDL_Renderer* renderer) {
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderDrawRect(renderer, &m_Collider.GetCollider());
-    SDL_RenderCopy(renderer, m_Texture, &m_Source, &m_Body);
-}

@@ -55,7 +55,7 @@ void Game::LoadLevel() {
     textureManager.AddTexture("duck", "./assets/images/jake.png");
     textureManager.AddTexture("normal-enemy", "./assets/images/normal-enemy.png");
     textureManager.AddTexture("bomb-enemy", "./assets/images/bomb-enemy.png");
-    textureManager.AddTexture("feather", "./assets/images/feather.png");
+    textureManager.AddTexture("bullet", "./assets/images/bullet.png");
     textureManager.AddTexture("lilypad", "./assets/images/lilypad.png");
     textureManager.AddTexture("enemy-bullet", "./assets/images/enemy-bullet.png");
     textureManager.AddTexture("background", "./assets/images/background.png");

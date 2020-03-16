@@ -38,7 +38,7 @@ void Duck::MoveVertical(int direction) {
 void Duck::Shoot() {
     Bullet projectile;
     projectile.SetPosition(m_Position.x + m_Body.w, m_Position.y + (m_Body.h / 2) - 4); // height / 2
-    projectile.LoadTexture("feather", 22, 9, 1, false);
+    projectile.LoadTexture("bullet", 8, 8, 2, false);
     projectile.SetVelocity(500, 0);
     projectile.InitCollider();
     m_Projectiles->push_back(Bullet(projectile));
@@ -47,11 +47,11 @@ void Duck::Shoot() {
 void Duck::DoubleShoot() {
     Bullet projectile1, projectile2;
     projectile1.SetPosition(m_Position.x + m_Body.w, m_Position.y + (m_Body.h / 2) - 4); // height / 2
-    projectile1.LoadTexture("feather", 22, 9, 1, false);
+    projectile1.LoadTexture("bullet", 8, 8, 2, false);
     projectile1.SetVelocity(500, -15);
     projectile1.InitCollider();
     projectile2.SetPosition(m_Position.x + m_Body.w, m_Position.y + (m_Body.h / 2) - 4); // height / 2
-    projectile2.LoadTexture("feather", 22, 9, 1, false);
+    projectile2.LoadTexture("bullet", 8, 8, 2, false);
     projectile2.SetVelocity(500, 15);
     projectile2.InitCollider();
     m_Projectiles->push_back(Bullet(projectile1));
