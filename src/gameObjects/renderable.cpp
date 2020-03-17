@@ -41,7 +41,7 @@ void Renderable::SetAnimation(std::string animName) {
 
 void Renderable::PlayAnimation(std::string animName) {
     if(m_Animations.find(animName) != m_Animations.end()) {
-        std::cout << animName << std::endl; 
+        // std::cout << animName << std::endl; 
         m_ClipAnimation = animName;
         m_Clip = true;
         // std::cout << m_ClipAnimation << " " << m_Animations[animName].FramesNum << " " << m_Clip << std::endl;

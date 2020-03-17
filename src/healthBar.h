@@ -11,6 +11,9 @@ private:
     SDL_Rect m_Position;
     SDL_Texture* m_Red;
     SDL_Texture* m_Grey;
+    SDL_Texture* m_Heart;
+    SDL_Texture* m_Energy;
+    int m_Scale;
     int m_ActualHealth;
     int m_MaxHealth;
 public:

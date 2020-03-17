@@ -24,7 +24,7 @@ int Enemy::GetRewardPoints() const {
     return m_RewardPoints;
 }
 
-Collider Enemy::GetCollider() {
+Collider Enemy::GetCollider() const {
     return m_Collider;
 }
 

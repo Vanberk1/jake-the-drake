@@ -59,8 +59,11 @@ void Game::LoadLevel() {
     textureManager.AddTexture("lilypad", "./assets/images/lilypad.png");
     textureManager.AddTexture("enemy-bullet", "./assets/images/enemy-bullet.png");
     textureManager.AddTexture("background", "./assets/images/background.png");
-    textureManager.AddTexture("red-heart", "./assets/images/red.png");
-    textureManager.AddTexture("grey-heart", "./assets/images/grey.png");
+    textureManager.AddTexture("health-red", "./assets/images/health-red.png");
+    textureManager.AddTexture("health-grey", "./assets/images/health-grey.png");
+    textureManager.AddTexture("heart", "./assets/images/heart.png");
+    textureManager.AddTexture("energy", "./assets/images/energy.png");
+    textureManager.AddTexture("hp-up", "./assets/images/hp-up.png");
 
     fontManager.AddFont("arial", 24, "./assets/fonts/arial.ttf");
 

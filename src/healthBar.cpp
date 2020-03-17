@@ -28,13 +28,17 @@ int HealthBar::GetMaxHealth() const {
 }
 
 void HealthBar::Init() {
-    m_Red = textureManager.GetTexture("red-heart");
-    m_Grey = textureManager.GetTexture("grey-heart");
+    m_Red = textureManager.GetTexture("health-red");
+    m_Grey = textureManager.GetTexture("health-grey");
+    m_Heart = textureManager.GetTexture("heart");
+    m_Energy = textureManager.GetTexture("energy");
     
-    m_Position.x = 25;
-    m_Position.y = 25;
-    m_Position.w = 16 * 2;
-    m_Position.h = 16 * 2;
+    m_Scale = 2;
+
+    m_Position.x = 35 * m_Scale;
+    m_Position.y = 23;
+    m_Position.w = 8 * m_Scale;
+    m_Position.h = 16 * m_Scale;
 }
 
 void HealthBar::Update(float deltaTime) {
@@ -49,12 +53,22 @@ void HealthBar::Render(SDL_Renderer* renderer) {
     pos.h = m_Position.h;
 
     for(int i = 0; i < m_ActualHealth; ++i) {
-        pos.x = 25 + i * 18 * 2;
+        pos.x = m_Position.x + i * m_Position.w;
         SDL_RenderCopy(renderer, m_Red, NULL, &pos);
     }
-
     for(int i = m_ActualHealth; i < m_MaxHealth; ++i) {
-        pos.x = 25 + i * 18 * 2;
+        pos.x = m_Position.x + i * m_Position.w;
         SDL_RenderCopy(renderer, m_Grey, NULL, &pos);
     }
+    pos.x = m_Position.x - 6 * m_Scale;
+    pos.y = m_Position.y + m_Position.h;
+    pos.w = 54 * m_Scale;
+    pos.h = 5 * m_Scale;
+    SDL_RenderCopy(renderer, m_Energy, NULL, &pos);
+
+    pos.x = m_Position.x - 26 * m_Scale;
+    pos.y = m_Position.y - 7 * m_Scale;
+    pos.w = 32 * m_Scale;
+    pos.h = 32 * m_Scale;
+    SDL_RenderCopy(renderer, m_Heart, NULL, &pos);
 }

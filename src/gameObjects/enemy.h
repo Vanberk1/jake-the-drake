@@ -10,7 +10,7 @@ protected:
     int m_ActualHealth;
     int m_MaxHealth;
 public:
-    Collider GetCollider();
+    Collider GetCollider() const;
     int GetRewardPoints() const;
     int GetHealth() const;
     void SetHealth(int max);

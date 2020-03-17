@@ -16,7 +16,7 @@ void PlayState::OnEnter() {
     jake.AddAnimation("shoot", 3, 5, 2);
     jake.SetAnimation("idle");
     jake.Init(&projectiles);
-    jake.SetHealth(3);
+    jake.SetHealth(6);
     jake.SetShootingType(DOUBLE_SHOOT);
 
     // std::cout << "Score: " << jake.GetScore() << std::endl;
@@ -158,8 +158,15 @@ void PlayState::Update(float deltaTime) {
                 enemies.erase(enemies.begin() + i);
             }
         }
+        for(int i = 0; i < buffs.size(); ++i) {
+            buffs[i]->Update(deltaTime);
+            if(buffs[i]->GetPosition().x + buffs[i]->GetWidth() < 0) {
+                buffs.erase(buffs.begin() + i);
+            }
+        }
         
         PlayerEnemyCollision();
+        PlayerBuffsCollision();
         ProjectilePlayerCollision();
         ProjectileEnemyCollision();
         BulletCollision();
@@ -178,6 +185,10 @@ void PlayState::Render(SDL_Renderer* renderer) {
     for(Enemy* enemy : enemies) {
         enemy->Render(renderer);
     }
+    for(Buff* buff : buffs) {
+        buff->Render(renderer);
+    }
+
     m_ScoreLabel.draw(renderer);
     jake.RenderHealthBar(renderer);
 
@@ -208,6 +219,15 @@ void PlayState::PlayerEnemyCollision() {
     }
 }
 
+void PlayState::PlayerBuffsCollision() {
+    for(int i = 0; i < buffs.size(); ++i) {
+        if(jake.GetCollider().AABBCollision(buffs[i]->GetCollider())) {
+            buffs[i]->Action(&jake);
+            buffs.erase(buffs.begin() + i);
+        }
+    }
+}
+
 void PlayState::ProjectileEnemyCollision() {
     for(int i = 0; i < projectiles.size(); ++i) {
         for(int j = 0; j < enemies.size(); ++j) {
@@ -215,6 +235,14 @@ void PlayState::ProjectileEnemyCollision() {
                 projectiles.erase(projectiles.begin() + i);
                 if(enemies[j]->GetHealth() - jake.GetDamage() <= 0) {
                     jake.AddPoints(enemies[j]->GetRewardPoints());
+                    int rng = m_Rng.Int(0, 10);
+                    if(rng == 5) {
+                        auto pos = enemies[j]->GetPosition();
+                        HealthUp* newBuff = new HealthUp(pos.x, pos.y, -70, 0);
+                        newBuff->LoadTexture("hp-up", 15, 12, 2, false);
+                        newBuff->Init();
+                        buffs.push_back(newBuff);
+                    }
                     enemies.erase(enemies.begin() + j);
                 }
                 else {

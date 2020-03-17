@@ -13,6 +13,7 @@
 #include "../gameObjects/duck.h"
 #include "../gameObjects/enemy.h"
 #include "../gameObjects/bullet.h"
+#include "../gameObjects/buffs/HealthUp.h"
 #include "../util/random.h"
 
 extern FontManager fontManager;
@@ -21,6 +22,7 @@ class PlayState : public GameState {
 private:
     bool m_IsPaused;
     bool m_GameOver;
+    Random m_Rng;
 
     Background background;
 
@@ -29,6 +31,7 @@ private:
     std::vector<Bullet> projectiles;
     std::vector<Bullet> enemyProjectiles;
     std::vector<Enemy*> enemies;
+    std::vector<Buff*> buffs;
 
     TextLabel m_HealthText;
     TextLabel m_ScoreLabel;
@@ -52,6 +55,7 @@ public:
     void Render(SDL_Renderer* renderer) override;
 
     void PlayerEnemyCollision();
+    void PlayerBuffsCollision();
     void ProjectilePlayerCollision();
     void ProjectileEnemyCollision();
     void BulletCollision();

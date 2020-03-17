@@ -23,7 +23,8 @@ enum ColliderTag {
     ENEMY,
     FRIENDLY_PROJECTILE,
     ENEMY_PROJECTILE,
-    OBASTACLE
+    OBASTACLE,
+    BUFF
 };
 
 enum CollisionType {
