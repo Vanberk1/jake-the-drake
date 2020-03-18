@@ -64,6 +64,7 @@ void Game::LoadLevel() {
     textureManager.AddTexture("heart", "./assets/images/heart.png");
     textureManager.AddTexture("energy", "./assets/images/energy.png");
     textureManager.AddTexture("hp-up", "./assets/images/hp-up.png");
+    textureManager.AddTexture("x2", "./assets/images/x2.png");
 
     fontManager.AddFont("arial", 24, "./assets/fonts/arial.ttf");
 

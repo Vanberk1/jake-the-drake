@@ -14,6 +14,7 @@
 #include "../gameObjects/enemy.h"
 #include "../gameObjects/bullet.h"
 #include "../gameObjects/buffs/HealthUp.h"
+#include "../gameObjects/buffs/doubleAttack.h"
 #include "../util/random.h"
 
 extern FontManager fontManager;

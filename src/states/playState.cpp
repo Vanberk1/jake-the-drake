@@ -17,7 +17,7 @@ void PlayState::OnEnter() {
     jake.SetAnimation("idle");
     jake.Init(&projectiles);
     jake.SetHealth(6);
-    jake.SetShootingType(DOUBLE_SHOOT);
+    jake.SetShootingType(NORMAL_SHOOT);
 
     // std::cout << "Score: " << jake.GetScore() << std::endl;
     TTF_Font* font = fontManager.GetFont("arial", 24);
@@ -235,11 +235,18 @@ void PlayState::ProjectileEnemyCollision() {
                 projectiles.erase(projectiles.begin() + i);
                 if(enemies[j]->GetHealth() - jake.GetDamage() <= 0) {
                     jake.AddPoints(enemies[j]->GetRewardPoints());
-                    int rng = m_Rng.Int(0, 10);
-                    if(rng == 5) {
+                    int rng = m_Rng.Int(0, 100);
+                    if(rng < 10) {
                         auto pos = enemies[j]->GetPosition();
                         HealthUp* newBuff = new HealthUp(pos.x, pos.y, -70, 0);
                         newBuff->LoadTexture("hp-up", 15, 12, 2, false);
+                        newBuff->Init();
+                        buffs.push_back(newBuff);
+                    }
+                    else if(rng >= 10 && rng < 20) {
+                        auto pos = enemies[j]->GetPosition();
+                        DoubleAttack* newBuff = new DoubleAttack(pos.x, pos.y, -70, 0);
+                        newBuff->LoadTexture("x2", 15, 12, 2, false);
                         newBuff->Init();
                         buffs.push_back(newBuff);
                     }
