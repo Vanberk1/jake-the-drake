@@ -40,7 +40,7 @@
 lib/glm/
 
 ### Makefile ###
-Makefile
+# Makefile
 
 ### VisualStudioCode ###
 .vscode/
